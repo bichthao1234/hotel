@@ -1,0 +1,194 @@
+<div>
+  <div class="row">
+    <div class="col-6 d-flex flex-row align-items-end">
+      <div class="mr-2 m-date-item">
+        <label>Ngày đặt phòng</label>
+        <app-range-date-picker [isRequire]="true" (respDateSelected)="getCreatedDate($event)"></app-range-date-picker>
+      </div>
+      <div class="mr-2 m-date-item">
+        <label>Ngày nhận phòng</label>
+        <app-range-date-picker [isRequire]="true" (respDateSelected)="getStartDate($event)"></app-range-date-picker>
+      </div>
+      <div class="d-flex flex-row align-items-end h-100">
+        <label class="custom-checkbox">
+          <input type="checkbox" id="myCheckbox" [(ngModel)]="isToday" (ngModelChange)="changeDateInput()">
+          <label for="myCheckbox" class="d-flex flex-row align-items-center checkmark rounded">
+            <span class="material-symbols-outlined">today</span>
+            <span>Hôm nay</span>
+          </label>
+        </label>
+      </div>
+    </div>
+    <div class="col-6 d-flex flex-row justify-content-end">
+            <div class="d-flex flex-column align-items-start mr-2">
+              <label>Trạng thái</label>
+              <p-dropdown [(ngModel)]="selectedStatus" [options]="reservationStatus" optionLabel="name"
+                          [showClear]="true" placeholder="Chọn" (onChange)="getReservationList()"></p-dropdown>
+            </div>
+      <div class="form-group">
+        <label>CCCD/CMND</label>
+<!--        <div class="d-flex flex-row justify-content-center">-->
+<!--          <div>-->
+<!--            <input type="text" class="form-control" id="cccd-cmnd" [formControl]="customerId"-->
+<!--                   [ngClass]="{'is-invalid': customerId.invalid && isBtnCustomerId}">-->
+<!--            <div *ngIf="customerId.invalid && isBtnCustomerId"-->
+<!--              class="invalid-feedback fs-10px">-->
+<!--              Hãy nhập CCCD/CMND!-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <button [matTooltip]="customerId.invalid ? 'Hãy nhập CCCD/CMND!' : ''" [disabled]="customerId.invalid" class="btn" (click)="searchReservationCustomId()">-->
+<!--            <span class="material-symbols-outlined">search</span>-->
+<!--          </button>-->
+<!--        </div>-->
+        <div class="d-flex flex-column align-items-start mb-3" *ngIf="!!customerList">
+          <p-autoComplete id="representativeCustomer"
+                          [(ngModel)]="chooseCustomer"
+                          [suggestions]="customerListFilter"
+                          field="id"
+                          [showEmptyMessage]="true"
+                          [showClear]="true"
+                          [dropdown]="true"
+                          (onSelect)="getReservationList()"
+                          (onKeyUp)="handleInput($event)"
+                          (onClear)="resetCustomer()"
+                          (completeMethod)="searchRepresentativeCustomer($event)">
+            <ng-template let-customer pTemplate="item">
+              <div class="d-flex flex-column align-items-start">
+                <div class="d-flex flex-row align-items-center mr-2">
+                  <span class="mr-1">CCCD/CMND:</span>
+                  <i>{{customer.id}}</i>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                  <span class="mr-1">Họ tên:</span>
+                  <i>{{customer.firstName}} {{customer.lastName}}</i>
+                </div>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <p-table #dt [value]="reservationsShow" dataKey="Id" styleClass="p-datatable-customers" [rowHover]="true"
+             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+             responsiveLayout="scroll"
+             [paginator]="true"
+             currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords} phiếu đặt"
+             [filterDelay]="0">
+      <ng-template pTemplate="caption">
+        <h5 class="table-header">
+          Danh sách phiếu đặt phòng
+        </h5>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">
+            <div class="flex justify-content-between align-items-center">
+              Mã đặt phòng
+              <p-sortIcon field="id"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="customerDisplayName">
+            <div class="flex justify-content-between align-items-center">
+              Khách đặt
+              <p-sortIcon field="customerDisplayName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="createdDate">
+            <div class="flex justify-content-between align-items-center">
+              Ngày tạo phiếu đặt
+              <p-sortIcon field="createdDate"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="startDate">
+            <div class="flex justify-content-between align-items-center">
+              Ngày nhận phòng
+              <p-sortIcon field="startDate"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="endDate">
+            <div class="flex justify-content-between align-items-center">
+              Ngày trả phòng
+              <p-sortIcon field="endDate"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="stayingDay">
+            <div class="flex justify-content-between align-items-center">
+              Số ngày ở
+              <p-sortIcon field="stayingDay"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="status.value">
+            <div class="flex justify-content-between align-items-center">
+              Trạng thái
+              <p-sortIcon field="status.value"></p-sortIcon>
+            </div>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-reservation>
+        <tr class="p-selectable-row">
+          <td>
+            <span class="p-column-title">Mã đặt phòng</span>
+            {{reservation.id}}
+          </td>
+          <td>
+            <span class="p-column-title">Khách đặt</span>
+            <span class="image-text">{{reservation.customerDisplayName}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Ngày tạo phiếu đặt</span>
+            {{reservation.createdDate | date: 'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <span class="p-column-title">Ngày nhận phòng</span>
+            {{reservation.startDate | date: 'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <span class="p-column-title">Ngày trả phòng</span>
+            {{reservation.endDate | date: 'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <span class="p-column-title">Số ngày ở</span>
+            {{reservation.stayingDay}}
+          </td>
+          <td>
+            <span class="p-column-title">Trạng thái</span>
+            <div class="status" [ngClass]="getClassOfStatus(reservation.status)">{{reservation.status.name}}</div>
+          </td>
+          <td>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+                    *ngIf="reservation?.status?.value === 1 || reservation?.status?.value === 2">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item *ngIf="reservation?.status?.value === 1" (click)="cancelReservation(reservation)">
+                <span>Hủy Phiếu</span>
+              </button>
+              <button mat-menu-item *ngIf="reservation?.status?.value === 1" (click)="openReservationEditRangeDateComponent(reservation)">
+                <span>Chỉnh ngày đến/đi</span>
+              </button>
+              <button mat-menu-item *ngIf="reservation?.status?.value === 1" (click)="openReservationDetailDialog(reservation)">
+                <span>Check in</span>
+              </button>
+              <button mat-menu-item *ngIf="reservation?.status?.value === 2" (click)="openReservationDetailDialog(reservation)">
+                <span>Check in</span>
+              </button>
+              <button mat-menu-item *ngIf="reservation?.status?.value === 2" (click)="routeToRentalDetail(reservation.id)">
+                <span>Xem phiếu thuê</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Không có phiếu đặt nào được tìm thấy</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

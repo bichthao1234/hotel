@@ -1,0 +1,82 @@
+.room-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding-right: 10px;
+  grid-gap: 10px;
+  align-items: center;
+}
+
+label {
+  font-size: 13px !important;
+  font-weight: bold;
+}
+.m-room-item {
+  border: 1px solid #cfcfcf;
+  width: 20rem !important;
+  height: 11rem !important;
+}
+.m-room-name {
+  background-color: #a0a0a0;
+  color: white;
+  height: fit-content;
+}
+.m-isPromotion {
+  /*margin-bottom: 18px !important;*/
+}
+.m-floor-title {
+  min-width: max-content !important;
+}
+
+.legend {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000;
+  margin-right: 5px;
+}
+
+.status-title {
+  font-size: 14px;
+}
+:host ::ng-deep .p-multiselect {
+  min-width: 10rem;
+  width: 15vw;
+}
+
+:host ::ng-deep .multiselect-custom .p-multiselect-label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+@media screen and (max-width: 640px) {
+  :host ::ng-deep .p-multiselect {
+    width: 100%;
+  }
+}
+.lb-item {
+  min-width: fit-content !important;
+}
+
+@media print {
+  .print-btn, .room-diagram, .legend {
+    display: none;
+  }
+}
+:host ::ng-deep p-menu {
+  position: relative;
+}
+
+:host ::ng-deep p-menu .p-menu-overlay {
+  top: 0px !important;
+  left: 0px !important;
+}

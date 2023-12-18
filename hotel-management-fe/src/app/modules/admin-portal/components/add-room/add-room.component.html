@@ -1,0 +1,79 @@
+<h3>Thêm phòng</h3>
+<mat-divider class="w-100 mb-3"></mat-divider>
+<div>
+  <div class="add-room-content" [formGroup]="roomForm">
+    <div class="mb-3">
+      <label for="room-id" class="form-label">Số phòng</label>
+      <div class="input-group">
+        <input placeholder="Ex: R.0000" type="text" class="form-control" id="room-id" formControlName="id"
+               [ngClass]="{'is-invalid': roomForm.controls['id'].invalid && isSubmit}">
+        <div *ngIf="roomForm.controls['id'].hasError('required') && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập số phòng!
+        </div>
+        <div *ngIf="roomForm.controls['id'].hasError('minlength') && isSubmit"
+             class="invalid-feedback">
+          Nhập tối thiểu 6 ký tự!
+        </div>
+        <div *ngIf="roomForm.controls['id'].hasError('maxlength') && isSubmit"
+             class="invalid-feedback">
+          Nhập tối đa 6 ký tự!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Hạng phòng</label>
+      <div class="input-group">
+        <p-dropdown [options]="roomClassifications" optionLabel="filterDescription"
+                    [formControl]="getFormControl('roomClassification')"
+                    [filter]="true" filterBy="filterDescription" [showClear]="false">
+        </p-dropdown>
+      </div>
+      <div *ngIf="roomForm.controls['roomClassification'].invalid && isSubmit"
+           class="invalid-feedback">
+        Hãy chọn hạng phòng!
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="room-floor" class="form-label">Tầng</label>
+      <div class="input-group">
+        <input type="number" min="1" max="99" class="form-control" id="room-floor" formControlName="floor"
+               [ngClass]="{'is-invalid': roomForm.controls['floor'].invalid && isSubmit}">
+        <div *ngIf="roomForm.controls['floor'].hasError('required') && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập tầng của phòng!
+        </div>
+        <div *ngIf="roomForm.controls['floor'].hasError('min') && isSubmit"
+             class="invalid-feedback">
+          Vượt quá tầng thấp nhất. Vui lòng chọn từ tầng 1!
+        </div>
+        <div *ngIf="roomForm.controls['floor'].hasError('max') && isSubmit"
+             class="invalid-feedback">
+          Vượt quá tầng cao nhất. Vui lòng chọn dưới tầng 99!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="room-status" class="form-label">Trạng thái phòng</label>
+      <div class="input-group">
+        <p-dropdown id="room-status" [options]="status" optionLabel="name"
+                    [formControl]="getFormControl('status')"
+                    [ngClass]="{'is-invalid': roomForm.controls['status'].invalid && isSubmit}"
+                    [filter]="true" filterBy="name" [showClear]="false">
+        </p-dropdown>
+      </div>
+      <div *ngIf="roomForm.controls['status'].invalid && isSubmit"
+           class="invalid-feedback">
+        Hãy chọn trạng thái phòng!
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Tên Phụ thu</th>
+    <th scope="col">Lý do</th>
+    <th scope="col">Đơn giá</th>
+    <th scope="col">Số lượng</th>
+    <th scope="col">Thành tiền</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let surcharge of roomRentalSurcharges">
+    <td>{{surcharge?.surchargeName}}</td>
+    <td>{{surcharge?.description}}</td>
+    <td>{{surcharge?.quantity}}</td>
+    <td>{{getPrice(surcharge?.price)}}</td>
+    <td>{{getPrice(getTotal(surcharge))}}</td>
+  </tr>
+  </tbody>
+</table>

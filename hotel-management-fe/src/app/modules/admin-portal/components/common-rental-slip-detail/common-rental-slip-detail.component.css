@@ -1,0 +1,47 @@
+.m-service {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #e0e0e0;
+}
+
+.m-service-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  align-items: center;
+}
+
+.m-service-item {
+  border-width: 1px;
+  border-color: #dcdcdc;
+  border-style: solid;
+  padding: 5px;
+}
+
+:host ::ng-deep mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+  padding: 24px !important;
+  min-width: fit-content;
+}
+:host ::ng-deep mat-tab-header {
+  display: block;
+}
+:host ::ng-deep mat-tab-header .mat-tab-header-pagination-chevron, .mat-tab-header-pagination-controls-enabled .mat-tab-header-pagination {
+  display: none;
+}
+
+.rental-detail-item {
+  margin-top: 20px;
+  border-style: solid !important;
+  border-color: #e1e1e1;
+  border-width: 1px;
+}
+.service-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 5px;
+  padding: 5px 0;
+}
+
+.wrap-common-rental-slip {
+  min-height: calc(100vh - 80px);
+}

@@ -1,0 +1,36 @@
+<div *ngIf="!isRequire" class="w-100">
+  <label *ngIf="title">{{title}}</label>
+  <div class="date-picker-input input-group w-100"
+       [ngClass]="{'date-picker-input-without-btn-toggle': !showBtnToggle}">
+    <mat-datepicker-toggle [ngClass]="{'hidden': !showBtnToggle}" [for]="campaignOnePicker" class="btn-date"></mat-datepicker-toggle>
+    <mat-date-range-input class="rounded bg-white form-control"
+                          [formGroup]="campaignOne"
+                          [min]="today"
+                          (click)="openDatePicker()"
+                          [rangePicker]="campaignOnePicker">
+      <input matStartDate formControlName="start" [readOnly]="true">
+      <input matEndDate formControlName="end" [readOnly]="true">
+    </mat-date-range-input>
+  </div>
+  <mat-date-range-picker #campaignOnePicker (closed)="checkAndReopen()"></mat-date-range-picker>
+</div>
+<div *ngIf="isRequire" class="w-100">
+  <label *ngIf="title">{{title}}</label>
+  <div class="date-picker-input input-group w-100"
+       [ngClass]="{'date-picker-input-without-btn-toggle': !showBtnToggle}">
+    <mat-datepicker-toggle [ngClass]="{'hidden': !showBtnToggle}" [for]="campaignOnePicker"
+                           class="btn-date"></mat-datepicker-toggle>
+    <mat-date-range-input class="rounded bg-white form-control"
+                          [formGroup]="campaignOne"
+                          (click)="openDatePicker()"
+                          [rangePicker]="campaignOnePicker">
+      <input matStartDate formControlName="start" [readOnly]="true">
+      <input matEndDate formControlName="end" [readOnly]="true">
+    </mat-date-range-input>
+    <span *ngIf="campaignOne.value?.start && campaignOne.value?.end"
+          class="material-symbols-outlined clear-button"
+          (click)="cleanForm()">close</span>
+  </div>
+  <mat-date-range-picker #campaignOnePicker (closed)="checkAndReopen()"></mat-date-range-picker>
+</div>
+

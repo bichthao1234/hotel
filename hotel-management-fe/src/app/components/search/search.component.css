@@ -1,0 +1,10 @@
+.m-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 75vh;
+}
+.clear-button {
+  right: 50px !important;
+}

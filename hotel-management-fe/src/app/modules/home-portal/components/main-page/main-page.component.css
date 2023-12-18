@@ -1,0 +1,42 @@
+.slide-image-hotel {
+  width: 100%;
+}
+
+.m-search-rooms-class {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  padding: 20px;
+  background-color: #ffffff !important;
+  width: 70%;
+  position: absolute;
+  top: 86%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 5px 2px rgba(211, 211, 211, 0.5);
+}
+
+.img-hotel {
+  position: relative;
+}
+
+.btn-booking-search {
+  line-height: 38px !important;
+}
+
+.t-num-of-room {
+  position: relative;
+}
+.b-num-of-room-hidden {
+  display: none !important;
+  position: absolute;
+  width: 100%;
+  top: 110%;
+}
+.b-num-of-room-show {
+  display: flex !important;
+}
+.main-content {
+  padding: 130px 8% 10% 8%;
+}

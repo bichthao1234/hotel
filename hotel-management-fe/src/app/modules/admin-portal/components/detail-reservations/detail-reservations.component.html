@@ -1,0 +1,72 @@
+<div class="p-2">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Thông tin phiếu đặt</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="d-flex flex-row align-items-center mb-2">
+    <span class="material-symbols-outlined">person</span>
+    <span>Khách đặt:</span>
+    <span class="text-success ml-1">{{data.customerDisplayName}}</span>
+  </div>
+  <div *ngIf="getStatus()">
+    <span class="text-danger">Chưa đến thời gian nhận phòng</span>
+  </div>
+  <div *ngIf="data.status.value === 2">
+    <span class="text-success">Đã nhận phòng</span>
+  </div>
+  <div *ngIf="orderedRooms">
+    <table class="table table-custom table-hover">
+      <thead>
+      <tr>
+        <th scope="col">Hạng phòng</th>
+        <th scope="col">Phòng</th>
+        <th scope="col">Nhận</th>
+        <th scope="col"></th>
+        <th scope="col">Trả</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col">Khách ở</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let i of orderedRooms" [ngClass]="{'disabled': (getStatus() || i.status === 1 || data.status.value === 0)}">
+        <td>{{i.classification?.roomKind?.name}} {{i.classification?.roomType?.name}}</td>
+        <td *ngIf="roomAvailableList">
+          <select class="form-control" (change)="addOrderRooms(i, $event)">
+            <option *ngIf="!rentalSlipDetail" [value]="''" [selected]="!rentalSlipDetail">Chọn</option>
+            <option *ngIf="rentalSlipDetail" [selected]="rentalSlipDetail">{{i?.orderItem?.roomId}}</option>
+            <option *ngFor="let room of roomAvailableList[i.roomClassId]"
+                    [value]="room.id" [disabled]="checkInOrderRooms(i, room.id)">{{room.id}}</option>
+          </select>
+        </td>
+        <td>{{data.startDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{getRangeDate()}} ngày</td>
+        <td>{{data.endDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{getStatusDetail(i.status)}}</td>
+        <td class="btn-manifest" [matTooltip]="'Thêm khách ở'"
+            [matTooltipDisabled]="getStatus()"
+            (click)="openDialogManifest(i)">
+          <span class="material-symbols-outlined">add</span>
+        </td>
+        <td>
+          <button class="btn btn-success" *ngIf="i.status === 0" (click)="acceptOneReservation(i)">
+            <span class="text-white">Check in</span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex align-items-center justify-content-end" *ngIf="data.status.value === 1">
+    <button class="btn btn-success"
+            [disabled]="getStatus() || data.status.value === 2"
+            (click)="acceptReservation()">
+      <span class="text-white">Xác nhận</span>
+    </button>
+<!--  </div>-->
+</div>

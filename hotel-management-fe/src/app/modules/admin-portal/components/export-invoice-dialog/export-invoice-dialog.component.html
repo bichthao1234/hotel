@@ -1,0 +1,50 @@
+<div class="m-detail-room">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder" *ngIf="data.isExportInvoice">Xuất hóa đơn</h5>
+      <h5 class="font-weight-bolder" *ngIf="data.isForPayment">Thanh toán</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="d-flex flex-column justify-content-between">
+    <div>
+      <p-pickList [source]="rentalSlipDetails" [target]="selectedRentalSlipDetail" sourceHeader="Chi tiết" targetHeader="Đã chọn" [dragdrop]="true" [responsive]="true"
+                  (onMoveToSource)="onChangeSelectedRentalSlipDetail()" (onMoveToTarget)="onChangeSelectedRentalSlipDetail()"
+                  (onMoveAllToSource)="onChangeSelectedRentalSlipDetail()" (onMoveAllToTarget)="onChangeSelectedRentalSlipDetail()"
+                  [sourceStyle]="{ height: '35rem' }" [targetStyle]="{ height: '35rem' }" breakpoint="1400px">
+        <ng-template let-rentalSlipDetail pTemplate="item">
+          <div class="flex flex-wrap p-2 align-items-center gap-3">
+            <app-rental-slip-detail-in-export-invoice [rentalSlipDetail]="rentalSlipDetail"></app-rental-slip-detail-in-export-invoice>
+          </div>
+        </ng-template>
+      </p-pickList>
+      <div class="row" *ngIf="previewInvoice">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <div class="d-flex flex-column align-items-end justify-content-end">
+            <div class="font-weight-bold">Tổng tiền:</div>
+            <div class="font-weight-bold">Đặt cọc:</div>
+            <div class="font-weight-bold" *ngIf="data.isForPayment">Đã thanh toán:</div>
+            <div class="font-weight-bold">Còn lại:</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="d-flex flex-column align-items-end justify-content-end">
+            <div>{{getPrice(previewInvoice.total)}} (vnđ)</div>
+            <div>{{getPrice(previewInvoice.deposit)}} (vnđ)</div>
+            <div *ngIf="data.isForPayment">{{getPrice(previewInvoice.paidAmount)}} (vnđ)</div>
+            <div *ngIf="data.isExportInvoice">{{getPrice(previewInvoice.total - previewInvoice.deposit)}} (vnđ)</div>
+            <div *ngIf="data.isForPayment">{{getPrice(previewInvoice.total - previewInvoice.deposit - previewInvoice.paidAmount)}} (vnđ)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-100 d-flex flex-row justify-content-center p-3">
+      <button class="btn btn-outline-primary ml-2" *ngIf="data.isExportInvoice" (click)="createInvoice()"> Tạo hóa đơn</button>
+      <button class="btn btn-outline-primary ml-2" *ngIf="data.isForPayment" (click)="openDialog()"> Thanh toán</button>
+    </div>
+  </div>
+</div>

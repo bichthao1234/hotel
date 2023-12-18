@@ -1,0 +1,171 @@
+<div class="sales-report-wrap">
+  <div class="row">
+    <div class="col-6">
+      <label class="mr-2">Thời gian từ:</label>
+      <p-calendar [(ngModel)]="dateFrom" view="month" dateFormat="mm/yy" [readonlyInput]="true"
+                  (onSelect)="getMonthFrom()"></p-calendar>
+    </div>
+    <div class="col-6">
+      <label class="mr-2">Thời gian đến:</label>
+      <p-calendar [(ngModel)]="dateTo" view="month" dateFormat="mm/yy" [readonlyInput]="true"
+                  (onSelect)="getMonthTo()"></p-calendar>
+    </div>
+  </div>
+  <div class="mt-5">
+    <div>
+      <h2>Báo cáo Doanh thu</h2>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <canvas
+          baseChart
+          class="chart"
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType"
+        >
+        </canvas>
+      </div>
+      <div class="col-6">
+        <div class="d-flex flex-row mb-2">
+          <button matTooltip="In file" (click)="printInvoiceBar()" [autofocus]="false"
+                  class="mr-3 btn btn-outline-primary">
+            <span class="material-symbols-outlined">print</span>
+          </button>
+          <button matTooltip="Xuất file" (click)="downloadPDFBar()" class="btn btn-outline-success">
+            <span class="material-symbols-outlined">picture_as_pdf</span>
+          </button>
+        </div>
+        <p-table #dt [value]="barChartTableData" dataKey="Id" styleClass="p-datatable-customers" [rowHover]="true"
+                 [rows]="25" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                 responsiveLayout="scroll"
+                 [paginator]="true"
+                 currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords}"
+                 [filterDelay]="0">
+          <ng-template pTemplate="caption">
+            <h5 class="table-header">
+              Danh sách Doanh thu theo tháng
+            </h5>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                <div class="flex justify-content-between align-items-center">
+                  Năm
+                  <p-sortIcon field="id"></p-sortIcon>
+                </div>
+              </th>
+              <th pSortableColumn="customerName">
+                <div class="flex justify-content-between align-items-center">
+                  Tháng
+                  <p-sortIcon field="customerName"></p-sortIcon>
+                </div>
+              </th>
+              <th pSortableColumn="createDate">
+                <div class="flex justify-content-between align-items-center">
+                  Doanh thu
+                  <p-sortIcon field="createDate"></p-sortIcon>
+                </div>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="p-selectable-row">
+              <td *ngIf="data[1]">
+                <span class="p-column-title">Năm</span>
+                {{data[1]}}
+              </td>
+              <td *ngIf="data[0]">
+                <span class="p-column-title">Tháng</span>
+                <span class="image-text">{{data[0]}}</span>
+              </td>
+              <td>
+                <span class="p-column-title">Doanh thu</span>
+                {{getPrice(data[2])}}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">Doanh thu trống</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div #printableAreaBar class="table-show">
+      <div class="d-flex flex-row justify-content-center">
+        <div #downloadTableBar class="printable-area">
+          <p>
+            <span>Khách sạn:</span>
+            <span>MY HOTEL</span>
+          </p>
+          <p>
+            <span>Địa chỉ:</span>
+            <span> 97 Man Thiện, Hiệp Phú, TP.Thủ Đức, TP.Hồ Chí Minh</span>
+          </p>
+          <p>
+            <span>SĐT:</span>
+            <span> (+84) 918909911</span>
+          </p>
+          <p>
+            <span>Email:</span>
+            <span> info@domain.com</span>
+          </p>
+          <hr style="border-top: 1px dotted #1f1f1f;">
+          <h4 class="table-header mb-5">
+            BÁO CÁO DOANH THU THEO THÁNG
+          </h4>
+          <div>
+            <p>
+              <span>Thời gian tính:</span>
+              <span> Tháng {{getDateFrom() | date: 'MM/yyyy'}} - Tháng {{getDateTo() | date: 'MM/yyyy'}} </span>
+            </p>
+          </div>
+          <table class="w-90 table table-custom table-hover">
+            <thead>
+            <tr class="row">
+              <th class="col-4" scope="col">Năm</th>
+              <th class="col-4" scope="col">Tháng</th>
+              <th class="col-4" scope="col">Doanh thu</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="row" *ngFor="let data of barChartTableData">
+              <td class="col-4" *ngIf="data[1]">
+                {{data[1]}}
+              </td>
+              <td class="col-4" *ngIf="data[0]">
+                <span class="image-text">{{data[0]}}</span>
+              </td>
+              <td class="col-4">
+                {{getPrice(data[2])}}
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <div class="mt-5 d-flex flex-row justify-content-end">
+                    <label class="mr-4">
+                      <span>Nhân viên lập:</span>
+                      <span> {{getFullName()}} </span>
+                    </label>
+                    <label>
+                      <span>Ngày lập:</span>
+                      <span> {{currentDate | date: 'dd/MM/yyyy'}} </span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <iframe class="table-show" style="width: 792px !important; height: 100% !important;" name="print_frame_bar"
+            frameborder="0"></iframe>
+  </div>
+</div>

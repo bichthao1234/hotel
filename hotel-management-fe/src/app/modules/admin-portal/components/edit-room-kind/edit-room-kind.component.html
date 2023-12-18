@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Chỉnh sửa loại phòng</h1>
+<div mat-dialog-content >
+  <div class="edit-room-kind-content" [formGroup]="roomKindEditForm">
+    <div class="mb-3">
+      <label for="room-kind-id" class="form-label">ID</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-kind-id" formControlName="id"
+               [ngClass]="{'is-invalid': roomKindEditForm.controls['id'].invalid && isSubmit}">
+        <div *ngIf="roomKindEditForm.controls['id'].invalid && isSubmit"
+             class="invalid-feedback">
+          Hãy nhập ID loại phòng!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="room-kind-name" class="form-label">Tên</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-kind-name" formControlName="name"
+               [ngClass]="{'is-invalid': roomKindEditForm.controls['name'].invalid && isSubmit}">
+        <div
+          *ngIf="roomKindEditForm.controls['name'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập tên loại phòng!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" [ngClass]="{'btn-submit': isChange}" mat-button (click)="save()" [disabled]="!isChange">
+    <span class="material-symbols-outlined">save</span>
+  </button>
+</div>

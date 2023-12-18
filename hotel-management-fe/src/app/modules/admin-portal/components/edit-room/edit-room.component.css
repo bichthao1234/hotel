@@ -1,0 +1,24 @@
+::ng-deep.mat-dialog-container {
+  width: 55vw;
+  overflow: visible;
+}
+
+:host ::ng-deep .p-multiselect {
+  min-width: 18rem;
+  width: 18rem;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+}
+:host ::ng-deep p-dropdown {
+  width: 100%;
+}
+:host ::ng-deep .p-inputtext {
+  padding: 0.375rem 0.75rem !important;
+}
+.add-room-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}

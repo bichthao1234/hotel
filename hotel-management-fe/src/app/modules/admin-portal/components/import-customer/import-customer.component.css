@@ -1,0 +1,26 @@
+.error-import {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.error-color {
+  color: #DC3545!important;
+}
+.import-content {
+  display: flex;
+  flex-direction: row;
+}
+.btn-submit {
+  margin-left: 20px;
+}
+.import-content {
+  display: flex;
+  flex-direction: row;
+}
+.btn-submit {
+  margin-left: 20px;
+}
+.select-file {
+  position: relative;
+  display: inline-block;
+}

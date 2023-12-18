@@ -1,0 +1,48 @@
+.header-admin {
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.expand {
+  width: calc(100% - 200px) !important;
+  margin-left: 200px !important;
+}
+.collapse {
+  width: calc(100% - 70px) !important;
+  margin-left: 70px !important;
+}
+.size {
+  font-size: 48px;
+}
+.btn-profile {
+  display: flex;
+  margin-right: 10px;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+}
+.style-employee {
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+}
+.style-employee-firstname {
+  margin-left: 10px;
+}
+.log-out {
+  cursor: pointer;
+}
+.log-out:hover {
+  color: red !important;
+}

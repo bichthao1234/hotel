@@ -1,0 +1,44 @@
+<div class="m-detail-room">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Thông tin phòng</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="p-2">
+    <h4 class="font-weight-bold mb-2">{{data.id}}</h4>
+    <div class="mb-1">
+      <span class="font-weight-bold">Kiểu phòng: </span>
+      <span>{{data.roomKind}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Loại phòng: </span>
+      <span>{{data.roomType}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Tầng: </span>
+      <span>{{data.floor}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Giá: </span>
+      <span class="p-1 rounded">{{CommonUtil.formatAmount(data.price.toString())}}đ</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Trạng thái: </span>
+      <span [style.background-color]="getBackgroundColor(data.roomStatusId)"
+            class="p-1 rounded">{{data.roomStatusName}}</span>
+    </div>
+  </div>
+  <div class="mb-2">
+    <p-panel header="Chi tiết phiếu thuê" [toggleable]="true" [collapsed]="false">
+      <app-rental-slip-detail [roomId]="data.id"></app-rental-slip-detail>
+    </p-panel>
+  </div>
+  <div class="mt-3 d-flex flex-row justify-content-end align-items-center">
+    <button class="btn btn-outline-primary ml-2" (click)="openPaymentDialog()">Trả phòng</button>
+    <button class="btn btn-outline-secondary ml-2" (click)="routeToRentalDetail()">Thêm dịch vụ</button>
+  </div>
+</div>

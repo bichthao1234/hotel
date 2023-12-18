@@ -1,0 +1,149 @@
+<div>
+  <div class="row">
+    <div class="col-6 d-flex flex-row align-items-center">
+      <h4 class="table-header">
+        Danh sách phiếu thuê có thể xuất hóa đơn
+      </h4>
+    </div>
+    <div class="col-6 d-flex flex-row justify-content-end">
+      <div class="form-group">
+        <label>CCCD/CMND</label>
+<!--        <div class="d-flex flex-row justify-content-center">-->
+<!--          <div>-->
+<!--            <input type="text" class="form-control" id="cccd-cmnd" [formControl]="customerId"-->
+<!--                   [ngClass]="{'is-invalid': customerId.invalid && isBtnCustomerId}">-->
+<!--            <div *ngIf="customerId.invalid && isBtnCustomerId"-->
+<!--                 class="invalid-feedback fs-10px">-->
+<!--              Hãy nhập CCCD/CMND!-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <button [matTooltip]="customerId.invalid ? 'Hãy nhập CCCD/CMND!' : ''" [disabled]="customerId.invalid" class="btn" (click)="searchReservationCustomId()">-->
+<!--            <span class="material-symbols-outlined">search</span>-->
+<!--          </button>-->
+<!--        </div>-->
+        <div class="d-flex flex-column align-items-start mb-3" *ngIf="!!customerList">
+          <p-autoComplete id="representativeCustomer"
+                          [(ngModel)]="chooseCustomer"
+                          [suggestions]="customerListFilter"
+                          field="id"
+                          [showEmptyMessage]="true"
+                          [showClear]="true"
+                          [dropdown]="true"
+                          (onSelect)="getAllRentalSlip()"
+                          (onKeyUp)="handleInput($event)"
+                          (onClear)="resetCustomer()"
+                          (completeMethod)="searchRepresentativeCustomer($event)">
+            <ng-template let-customer pTemplate="item">
+              <div class="d-flex flex-column align-items-start">
+                <div class="d-flex flex-row align-items-center mr-2">
+                  <span class="mr-1">CCCD/CMND:</span>
+                  <i>{{customer.id}}</i>
+                </div>
+                <div class="d-flex flex-row align-items-center">
+                  <span class="mr-1">Họ tên:</span>
+                  <i>{{customer.firstName}} {{customer.lastName}}</i>
+                </div>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p-table #dt [value]="rentalSlips" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+             responsiveLayout="scroll"
+             [paginator]="true"
+             currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords} phiếu thuê"
+             [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">
+            <div class="flex justify-content-between align-items-center">
+              Mã PT
+              <p-sortIcon field="id"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="customerName">
+            <div class="flex justify-content-between align-items-center">
+              Khách đặt
+              <p-sortIcon field="customerName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="startDate">
+            <div class="flex justify-content-between align-items-center">
+              Lưu trú
+              <p-sortIcon field="startDate"></p-sortIcon>
+            </div>
+          </th>
+<!--          <th pSortableColumn="total">-->
+<!--            <div class="flex justify-content-between align-items-center">-->
+<!--              Tổng cộng (vnđ)-->
+<!--              <p-sortIcon field="total"></p-sortIcon>-->
+<!--            </div>-->
+<!--          </th>-->
+<!--          <th pSortableColumn="deposit">-->
+<!--            <div class="flex justify-content-between align-items-center">-->
+<!--              Tiền cọc (vnđ)-->
+<!--              <p-sortIcon field="deposit"></p-sortIcon>-->
+<!--            </div>-->
+<!--          </th>-->
+          <th pSortableColumn="rooms">
+            <div class="flex justify-content-between align-items-center">
+              Phòng thuê
+            </div>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rentalSlip>
+        <tr class="p-selectable-row">
+          <td>
+            <span class="p-column-title">Mã PT</span>
+            {{rentalSlip.id}}
+          </td>
+          <td>
+            <span class="p-column-title">Khách đặt</span>
+            <span class="image-text">{{rentalSlip.customerName}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Lưu trú</span>
+            {{rentalSlip.startDate | date: 'dd/MM/yyyy'}} - {{rentalSlip.endDate | date: 'dd/MM/yyyy'}}
+          </td>
+<!--          <td>-->
+<!--            <span class="p-column-title">Tổng cộng (vnđ)</span>-->
+<!--            {{getPrice(rentalSlip?.total)}}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <span class="p-column-title">Tiền cọc (vnđ)</span>-->
+<!--            {{getPrice(rentalSlip?.deposit)}}-->
+<!--          </td>-->
+          <td>
+            <span class="p-column-title">Phòng thuê</span>
+            <div>
+              <div *ngFor="let room of rentalSlip.rooms">
+                <div class="w-fit px-2 py-1 rounded m-1" [ngClass]="getClassOfRoomStatus(room, rentalSlip.status)">{{room.id}}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openDialog(rentalSlip)">
+                <span>Xuất hóa đơn</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Không có phiếu thuê nào được tìm thấy</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

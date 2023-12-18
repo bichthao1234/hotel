@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>Chỉnh sửa phụ thu</h1>
+<div mat-dialog-content >
+  <div class="edit-room-type-content" [formGroup]="surchargeFormGroup">
+    <div class="mb-3">
+      <label for="room-type-id" class="form-label">ID</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-type-id" formControlName="id"
+               [ngClass]="{'is-invalid': surchargeFormGroup.controls['id'].invalid && isSubmit}">
+        <div *ngIf="surchargeFormGroup.controls['id'].invalid && isSubmit"
+          class="invalid-feedback">
+          Please enter a ID of room type!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="room-type-name" class="form-label">Tên</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-type-name" formControlName="name"
+               [ngClass]="{'is-invalid': surchargeFormGroup.controls['name'].invalid && isSubmit}">
+        <div
+          *ngIf="surchargeFormGroup.controls['name'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập tên phụ thu!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Mô tả</label>
+      <div class="input-group">
+        <textarea type="text" class="form-control" id="description" formControlName="description"
+                  [ngClass]="{'is-invalid': surchargeFormGroup.controls['description'].invalid && isSubmit}">
+        </textarea>
+        <div
+          *ngIf="surchargeFormGroup.controls['description'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập mô tả phụ thu!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" [ngClass]="{'btn-submit': isChange}" mat-button (click)="save()" [disabled]="!isChange">
+    <span class="material-symbols-outlined">save</span>
+  </button>
+</div>

@@ -1,0 +1,98 @@
+<div>
+  <div class="room-diagram">
+    <div class="d-flex flex-column align-items-start mr-2">
+      <label class="mr-1 lb-item" for="roomKinds">Loại phòng</label>
+      <p-multiSelect class="m-filter-item" [options]="roomKinds" id="roomKinds" (onChange)="onChangeRequest($event, 'roomKinds')"
+                     optionLabel="name"
+      ></p-multiSelect>
+    </div>
+    <div class="d-flex flex-column align-items-start mr-2">
+      <label class="mr-1 lb-item" for="roomTypes">Kiểu phòng</label>
+      <p-multiSelect class="m-filter-item" [options]="roomTypes" id="roomTypes" (onChange)="onChangeRequest($event, 'roomTypes')"
+                     optionLabel="name"
+      ></p-multiSelect>
+    </div>
+    <div class="d-flex flex-column align-items-start mr-2">
+      <label class="mr-1 lb-item" for="roomStatus">Trạng thái phòng</label>
+      <p-multiSelect class="m-filter-item" [options]="roomStatus" id="roomStatus" (onChange)="onChangeRequest($event, 'roomStatus')"
+                     optionLabel="name"
+      ></p-multiSelect>
+    </div>
+    <div class="form-check d-flex flex-row align-items-start m-isPromotion mr-2">
+      <input class="form-check-input" type="checkbox" value="" id="isPromotion" (click)="onClickPromotion()">
+      <label class="form-check-label" for="isPromotion">
+        Có khuyến mãi
+      </label>
+    </div>
+    <div class="form-group mr-2">
+      <div>
+        <label>Khoảng giá: {{getPrice(rangeValues[0]) + ' - ' + getPrice(rangeValues[1])}}</label>
+        <p-slider [(ngModel)]="rangeValues" [range]="true" [step]="1000" [min]="0" [max]="10000000"
+                  (onSlideEnd)="onChangePrice($event)"></p-slider>
+      </div>
+    </div>
+  </div>
+  <div class="legend mt-3">
+    <div class="legend-item" *ngFor="let status of roomStatus">
+      <div class="color-box" [style.background-color]="status.color"></div>
+      <div class="status-title">{{status.name}}</div>
+    </div>
+  </div>
+  <h6 style="font-style: italic">--- Số phòng đang hiển thị: {{numberOfRooms}} ---</h6>
+  <div *ngIf="roomList" class="pt-2">
+    <div *ngFor="let key of getKeys()" class="mb-3">
+      <div class="d-flex flex-row align-items-center mb-3">
+        <h5 class="mr-2 m-floor-title">Tầng {{key}}</h5>
+        <mat-divider class="w-100"></mat-divider>
+      </div>
+      <div class="d-flex flex-row flex-wrap">
+        <div *ngFor="let room of roomList[key]" class="m-room-item rounded mx-1 mb-2 p-2 w-fit"
+             [style.background-color]="getBackgroundColor(room.roomStatusId)" (click)="openDialog(room)"
+             [ngClass]="{'pointer-cursor': room.roomStatusId !== 'RS00004'}">
+          <div>
+            <div class="d-flex flex-row mb-3 justify-content-between">
+              <div class="d-flex px-3 py-1 flex-row rounded mr-5 m-room-name">
+                <span class="font-weight-bold">{{room.id}}</span>
+              </div>
+              <div class="d-flex flex-row align-items-center justify-content-end w-100">
+                <div class="d-flex flex-row pb-2">
+                  <div class="d-flex flex-row align-items-center" [style.color]="getTextColor(room.roomStatusId)">
+                    <span class="material-symbols-outlined">{{getIcon(room.roomStatusId)}}</span>
+                    <span class="fs-13px w-100">{{room.roomStatusName}}</span>
+                  </div>
+                </div>
+                <div *ngIf="room.roomStatusId !== 'RS00002'" class="d-flex flex-column">
+                  <button class="btn" type="button" (click)="menu.toggle($event);$event.stopPropagation()">
+                    <span class="material-symbols-outlined">more_vert</span>
+                  </button>
+                  <p-menu (click)="$event.stopPropagation()" #menu [popup]="true" [model]="getStatusItem(room)"></p-menu>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4 d-flex flex-column">
+              <div>
+                {{room.roomKind}}
+              </div>
+              <div>
+                {{room.roomType}}
+              </div>
+            </div>
+            <div>
+              <div class="d-flex flex-row align-items-center font-weight-bold">
+                <span class="material-symbols-outlined">sell</span>
+                <div *ngIf="room?.price && room?.priceAfterPromotion" class="d-flex flex-row">
+                  <div class="d-flex flex-column">
+                    <div *ngIf="hasPromotion(room.price, room.priceAfterPromotion)" class="m-price">
+                      <span>{{getPrice(room.price)}}đ</span>
+                    </div>
+                    <span>{{getPrice(room.priceAfterPromotion)}}đ</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

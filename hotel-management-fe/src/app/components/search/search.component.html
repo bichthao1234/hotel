@@ -1,0 +1,11 @@
+<div class="m-search">
+  <div [formGroup]="searchForm" class="input-group rounded">
+    <input id="search" type="text" class="form-control rounded" [placeholder]="'Search by ' + searchBy" formControlName="searchText"/>
+    <label *ngIf="showClearButton" class="clear-button" (click)="onInputChange()">
+      <mat-icon>clear</mat-icon>
+    </label>
+    <button mat-button class="input-group-text border-0 btn-search" [ngClass]="{'pointer-cursor': showClearButton, 'default-cursor': !showClearButton}" (click)="clickEvent()" [disabled]="!showClearButton">
+      <span class="material-symbols-outlined">search</span>
+    </button>
+  </div>
+</div>

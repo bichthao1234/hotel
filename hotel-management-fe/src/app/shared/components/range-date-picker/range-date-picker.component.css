@@ -1,0 +1,15 @@
+.date-picker-input {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.date-picker-input-without-btn-toggle {
+  min-width: 20vw !important;
+  max-width: 20vw !important;
+}
+
+.input-group {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}

@@ -1,0 +1,44 @@
+<div class="root-classification">
+  <p-panel header="Chi tiết Dịch vụ" [toggleable]="true" [collapsed]="false">
+    <div class="mb-1">
+      <span class="font-weight-bold">ID: </span>
+      <span>{{data.id}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Tên dịch vụ: </span>
+      <span>{{data.name}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Mô tả: </span>
+      <span>{{data.description}}</span>
+    </div>
+  </p-panel>
+  <mat-divider class="mt-3"></mat-divider>
+  <h5 class="font-weight-bolder">Lịch sử thay đổi giá dịch vụ</h5>
+  <div class="d-flex flex-row align-items-center justify-content-between mt-2 mx-2">
+    <div [matTooltip]="'Thêm giá'" class="pointer-cursor btn-submit rounded d-flex align-content-center btn-add" (click)="openAddNewDialog()">
+      <span class="material-symbols-outlined">add</span>
+    </div>
+  </div>
+  <p-timeline [value]="data.priceServiceDtos" align="alternate" styleClass="customized-timeline" class="mt-4">
+    <ng-template pTemplate="marker" let-priceItem>
+            <span *ngIf="!isSmallerThanToday(priceItem.appliedDate)" class="custom-marker shadow-2" style="background-color: greenyellow">
+                <i class="pi pi-check"></i>
+            </span>
+            <span *ngIf="isSmallerThanToday(priceItem.appliedDate)" class="custom-marker shadow-2" style="background-color: orangered">
+                <i class="pi pi-sync"></i>
+            </span>
+            <span>{{priceItem.createdDate | date: 'dd/MM/yyyy'}}</span>
+            <span>By: {{priceItem.createdBy.firstName}} {{priceItem.createdBy.lastName}}</span>
+    </ng-template>
+    <ng-template pTemplate="content" let-priceItem>
+      <p-card [header]="getFormatDate(priceItem.appliedDate)" class="mb-5">
+        <h4>Giá {{getPrice(priceItem.price)}} VND</h4>
+<!--        <p>-->
+<!--          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate-->
+<!--          neque quas!-->
+<!--        </p>-->
+      </p-card>
+    </ng-template>
+  </p-timeline>
+</div>

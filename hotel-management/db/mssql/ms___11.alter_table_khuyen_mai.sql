@@ -1,0 +1,7 @@
+USE hotel_management;
+GO
+
+ALTER TABLE KHUYEN_MAI
+ADD NGAY_BAT_DAU DATE,
+    NGAY_KET_THUC DATE;
+

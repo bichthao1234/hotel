@@ -1,0 +1,43 @@
+<div
+  class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="d-flex align-items-center justify-content-center w-100">
+    <div class="row justify-content-center w-100">
+      <div class="col-md-8 col-lg-6 col-xxl-3">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="text-nowrap logo-img text-center d-block py-3 w-100">
+              <img class="w-25 h-25 logo-admin" src="/assets/images/logo.jpg" alt="logo">
+            </div>
+            <form [formGroup]="loginForm">
+              <div class="mb-3">
+                <label for="username" class="form-label">Tên tài khoản</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="username" formControlName="username"
+                         [ngClass]="{'is-invalid': loginForm.controls['username'].invalid && isSubmit}">
+                  <div
+                    *ngIf="loginForm.controls['username'].invalid && isSubmit"
+                    class="invalid-feedback">
+                    Hãy nhập tên tài khoản!
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="password" formControlName="password"
+                         [ngClass]="{'is-invalid': loginForm.controls['password'].invalid && isSubmit}">
+                  <div
+                    *ngIf="loginForm.controls['password'].invalid && isSubmit"
+                    class="invalid-feedback">
+                    Hãy nhập mật khẩu!
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" (click)="checkLogin()">Đăng nhập</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

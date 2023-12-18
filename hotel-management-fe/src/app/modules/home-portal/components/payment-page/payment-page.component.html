@@ -1,0 +1,145 @@
+<div class="d-flex flex-column wrap-payment">
+  <div class="d-flex flex-row justify-content-center mb-3">
+    <h2>CHI TIẾT ĐẶT PHÒNG</h2>
+    <div></div>
+  </div>
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column w-65 ">
+      <div class="h-fit rounded bg-white mr-3 p-3">
+        <h5>Thông tin người đặt</h5>
+        <mat-divider></mat-divider>
+        <div class="d-flex flex-column mt-3" [formGroup]="customerForm">
+          <div class="d-flex flex-row justify-content-between align-items-end">
+            <div class="cccd w-100">
+              <label for="cccd" class="form-label required">CCCD/CMND</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="cccd" formControlName="id"
+                       [ngClass]="{'is-invalid': customerForm.controls['id'].invalid}">
+              </div>
+            </div>
+            <button class="ml-2 h-25 btn btn-primary" (click)="checkExistCustomer()">
+              check
+            </button>
+          </div>
+          <div
+            *ngIf="customerForm.controls['id'].invalid" class="mat-error fs-10px">
+            Vui lòng nhập CCCD/CMND
+          </div>
+          <div *ngIf="isCheck && isClickCheck" class="m-alert">Thông tin của bạn đã có trong hệ thống</div>
+          <div *ngIf="!isCheck && isClickCheck" class="m-alert-risk">Thông tin của bạn chưa có trong hệ thống.
+            Vui lòng nhập thông tin của bạn!
+          </div>
+          <div *ngIf="isClickCheck" class="wrap-infor">
+            <div class="first-name">
+              <label for="first-name" class="form-label required">Họ</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="first-name" formControlName="firstName"
+                       [ngClass]="{'disabled': isCheck, 'is-invalid': customerForm.controls['firstName'].invalid}">
+                <div
+                  *ngIf="customerForm.controls['firstName'].invalid"
+                  class="invalid-feedback fs-10px">
+                  Vui lòng nhập họ!
+                </div>
+              </div>
+            </div>
+            <div class="last-name">
+              <label for="last-name" class="form-label required">Tên</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="last-name" formControlName="lastName"
+                       [ngClass]="{'disabled': isCheck, 'is-invalid': customerForm.controls['lastName'].invalid}">
+                <div
+                  *ngIf="customerForm.controls['lastName'].invalid"
+                  class="invalid-feedback fs-10px">
+                  Vui lòng nhập tên!
+                </div>
+              </div>
+            </div>
+            <div class="email">
+              <label for="email" class="form-label">Email</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="email" formControlName="email"
+                       [ngClass]="{'disabled': isCheck}">
+              </div>
+            </div>
+            <div class="phone-num">
+              <label for="phone-num" class="form-label">Số điện thoại</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="phone-num" formControlName="phoneNumber"
+                       [ngClass]="{'disabled': isCheck}">
+              </div>
+            </div>
+            <div class="address">
+              <label for="address" class="form-label">Địa chỉ</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="address" phoneNumber formControlName="address"
+                       [ngClass]="{'disabled': isCheck}">
+              </div>
+            </div>
+            <div class="tin">
+              <label for="tin" class="form-label">Mã số thuế</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="tin" formControlName="taxNumber"
+                       [ngClass]="{'disabled': isCheck}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-fit rounded bg-white mt-4 mr-3 p-3">
+        <h5>Thanh toán</h5>
+        <mat-divider></mat-divider>
+
+        <div class="tin">
+          <label for="deposits" class="form-label mt-2 d-flex flex-row align-items-start">
+            <span class="required">Đặt cọc</span>
+            <span class="fs-10px">(Tối thiểu là 20% của tổng số tiền)</span>
+          </label>
+          <div class="input-group input-container">
+            <input [formControl]="depositsForm" type="text" class="form-control number-input rounded" id="deposits"
+                   onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            <span class="currency-symbol">đ</span>
+          </div>
+          <div class="fs-10px mat-error" *ngIf="depositsForm.errors?.['min']">
+            Vui lòng nhập số tiền đặt cọc tối thiểu là 20% trên tổng số tiền!
+          </div>
+          <div class="fs-10px mat-error" *ngIf="depositsForm.errors?.['max']">
+            Vui lòng nhập số tiền đặt cọc tối đa là tổng số tiền!
+          </div>
+          <div class="fs-10px mat-error" *ngIf="depositsForm?.errors?.['required']">
+            Vui lòng nhập số tiền đặt cọc!
+          </div>
+        </div>
+        <button mat-button class="px-3 py-2 mt-3 btn-make-a-reservation" (click)="makeReservation()"
+                [disabled]="customerForm.invalid || this.depositsForm.invalid">
+          ĐẶT PHÒNG
+        </button>
+        <div>
+          <span class="fs-10px">Vui lòng thanh toán tiền đặt cọc trước khi đặt phòng</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="detailRoomNums" class="h-fit p-3 w-35 bg-white rounded d-flex flex-column">
+      <div>
+        <h5>Thông tin đặt phòng</h5>
+      </div>
+      <mat-divider class="py-1"></mat-divider>
+      <div class="d-flex flex-column">
+        <b>Đặt phòng khách sạn</b>
+        <b>{{checkInOutDate}}</b>
+      </div>
+      <mat-divider class="py-1"></mat-divider>
+      <div>
+        <h6>Thông tin phòng</h6>
+        <div class="d-flex flex-column m-detail-room-list">
+          <app-detail-room-item *ngFor="let item of detailRoomNums" [detailRoomClass]="item"></app-detail-room-item>
+        </div>
+      </div>
+      <mat-divider class="py-1"></mat-divider>
+      <div class="d-flex flex-row justify-content-between mb-2">
+        <b>Tổng tiền</b>
+        <div>{{getPrice(totalPrice)}}đ</div>
+      </div>
+      <mat-divider class="py-1"></mat-divider>
+    </div>
+  </div>
+</div>

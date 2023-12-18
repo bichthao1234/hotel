@@ -1,0 +1,96 @@
+<p-table #dt [value]="invoiceList" dataKey="Id" styleClass="p-datatable-customers" [rowHover]="true"
+         [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+         responsiveLayout="scroll"
+         [paginator]="true"
+         currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords} hoá đơn"
+         [filterDelay]="0">
+  <ng-template pTemplate="caption">
+    <h5 class="table-header">
+      Danh sách hoá đơn
+    </h5>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="invoiceId">
+        <div class="flex justify-content-between align-items-center">
+          Số hoá đơn
+          <p-sortIcon field="invoiceId"></p-sortIcon>
+        </div>
+      </th>
+      <th pSortableColumn="createdDate">
+        <div class="flex justify-content-between align-items-center">
+          Ngày tạo
+          <p-sortIcon field="createdDate"></p-sortIcon>
+        </div>
+      </th>
+      <th pSortableColumn="customer.name">
+        <div class="flex justify-content-between align-items-center">
+          Khách hàng
+          <p-sortIcon field="customer.name"></p-sortIcon>
+        </div>
+      </th>
+      <th pSortableColumn="deposit">
+        <div class="flex justify-content-between align-items-center">
+          Khách cọc (vnđ)
+          <p-sortIcon field="deposit"></p-sortIcon>
+        </div>
+      </th>
+<!--      <th pSortableColumn="promotion">-->
+<!--        <div class="flex justify-content-between align-items-center">-->
+<!--          Giảm giá (vnđ)-->
+<!--          <p-sortIcon field="promotion"></p-sortIcon>-->
+<!--        </div>-->
+<!--      </th>-->
+      <th pSortableColumn="totalInvoice">
+        <div class="flex justify-content-between align-items-center">
+          Tổng tiền (vnđ)
+          <p-sortIcon field="totalInvoice"></p-sortIcon>
+        </div>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-invoice>
+    <tr class="p-selectable-row" (click)="openInvoiceDetail(invoice.invoiceId)">
+      <td>
+        <span class="p-column-title">Số hoá đơn</span>
+        {{invoice.invoiceId}}
+      </td>
+      <td>
+        <span class="p-column-title">Ngày tạo</span>
+        {{invoice.createdDate | date: 'dd/MM/yyyy'}}
+      </td>
+      <td>
+        <span class="p-column-title">Khách hàng</span>
+        {{invoice.customer.name}}
+      </td>
+      <td>
+        <span class="p-column-title">Khách cọc (vnđ)</span>
+        {{getPriceFormat(invoice.deposit)}}
+      </td>
+<!--      <td>-->
+<!--        <span class="p-column-title">Giảm giá (vnđ)</span>-->
+<!--        {{getPriceFormat(invoice.promotion)}}-->
+<!--      </td>-->
+      <td>
+        <span class="p-column-title">Tổng tiền (vnđ)</span>
+        {{getPriceFormat(invoice.totalInvoice)}}
+      </td>
+      <td>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span (click)="openInvoiceDetail(invoice.invoiceId)">Xem chi tiết</span>
+          </button>
+        </mat-menu>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="8">Không có hoá đơn nào được tìm thấy</td>
+    </tr>
+  </ng-template>
+</p-table>

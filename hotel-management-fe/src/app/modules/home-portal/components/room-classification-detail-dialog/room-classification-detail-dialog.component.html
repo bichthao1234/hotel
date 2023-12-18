@@ -1,0 +1,26 @@
+<div class="d-flex flex-row align-items-start">
+    <div>
+      <img class="img-room-num-class-large" src="http://localhost:9095/hotel-ws/api/v1/image/{{data.roomClassImage}}">
+    </div>
+  <div class="bg-white p-3 d-flex flex-column w-300px">
+    <div class="d-flex flex-row justify-content-end">
+      <span class="material-symbols-outlined pointer-cursor" (click)="close()">close</span>
+    </div>
+    <div class="mb-2">
+      <h5>{{data.roomClassification?.roomKind?.name}}</h5>
+      <label>{{data.roomClassification?.roomType?.name}}</label>
+    </div>
+    <mat-divider></mat-divider>
+    <p>{{data.roomClassification?.description}}</p>
+    <div class="mb-2">
+      <h6>Tiện nghi</h6>
+      <mat-divider></mat-divider>
+    </div>
+    <div *ngIf="conveniences" class="m-convenience">
+      <div *ngFor="let convenience of conveniences" class="d-flex flex-row">
+        <span class="material-symbols-outlined">{{convenience?.convenience?.icon}}</span>
+        <label>{{convenience?.convenience?.name}}</label>
+      </div>
+    </div>
+  </div>
+</div>

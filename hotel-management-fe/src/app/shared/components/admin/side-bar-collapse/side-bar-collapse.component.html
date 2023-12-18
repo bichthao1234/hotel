@@ -1,0 +1,14 @@
+<mat-nav-list>
+  <mat-nav-list>
+    <ng-container *ngFor="let menuItem of menuItems">
+      <div class="menu-item">
+        <a class="m-item" mat-list-item [routerLink]="[menuItem.path]" routerLinkActive="list-item-active"
+           (mouseenter)="highlightItem($event)" (mouseleave)="unhighlightItem($event)"
+           [matTooltip]="menuItem.title"
+           matTooltipPosition="right">
+          <span class="material-symbols-outlined">{{ menuItem.icon }}</span>
+        </a>
+      </div>
+    </ng-container>
+  </mat-nav-list>
+</mat-nav-list>

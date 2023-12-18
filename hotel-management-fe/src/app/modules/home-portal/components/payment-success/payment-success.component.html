@@ -1,0 +1,67 @@
+<div class="mx-5 pt-5">
+  <div class="bg-white rounded p-5 wrap-payment-success d-flex flex-column justify-content-between">
+    <div class="h-100 d-flex flex-column align-items-center justify-content-between mb-5">
+      <img width="100" height="100" src="assets/images/success-payment.png" alt="success-payment">
+      <h4>Đặt phòng thành công</h4>
+      <div *ngIf="customerValue" class="mt-5 w-100 p-3 d-flex flex-row justify-content-around">
+        <div class="h-fit w-fit d-flex flex-column justify-content-center">
+          <div>
+            <h5>Thông tin khách đặt</h5>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="mt-3">
+            <label><b>CCCD/CMND:</b> {{customerValue.id}}</label>
+          </div>
+          <div>
+            <label><b>Họ tên:</b> {{customerValue.firstName + ' ' + customerValue.lastName}}</label>
+          </div>
+          <div>
+            <label><b>Email:</b> {{customerValue.email ?? null | nullHyphens}}</label>
+          </div>
+          <div>
+            <label><b>Số điện thoại:</b> {{customerValue.phoneNumber ?? null | nullHyphens}}</label>
+          </div>
+          <div>
+            <label><b>Mã số thuế:</b> {{customerValue.taxNumber ?? null | nullHyphens}}</label>
+          </div>
+          <div>
+            <label><b>Địa chỉ:</b> {{customerValue.address ?? null | nullHyphens}}</label>
+          </div>
+        </div>
+        <div class="h-fit w-fit d-flex flex-column justify-content-center">
+          <div>
+            <h5>Thông tin đặt phòng</h5>
+          </div>
+          <mat-divider class="py-1"></mat-divider>
+          <div>
+            <b>Ngày đến - trả phòng: </b> {{checkInOutDate}}
+          </div>
+          <mat-divider class="py-1"></mat-divider>
+          <div>
+            <h6>Thông tin phòng</h6>
+            <div class="d-flex flex-column m-detail-room-list">
+              <app-detail-room-item *ngFor="let item of detailRoomNums" [detailRoomClass]="item"></app-detail-room-item>
+            </div>
+          </div>
+          <mat-divider class="py-1"></mat-divider>
+          <div class="d-flex flex-row justify-content-between mb-2">
+            <b>Tổng tiền</b>
+            <div>{{getPrice(totalPrice)}}đ</div>
+          </div>
+          <mat-divider class="py-1"></mat-divider>
+        </div>
+      </div>
+      <div class="w-70 d-flex flex-row justify-content-end">
+        <div class="w-fit"><b>Đã đặt cọc: </b>{{getPrice(deposit)}}đ</div>
+      </div>
+      <div class="mt-4 w-70 d-flex flex-row justify-content-end">
+        <button class="w-fit btn btn-primary" (click)="goToSearchPage()">Tiếp tục đặt phòng</button>
+      </div>
+    </div>
+    <div class="fs-13px font-italic">
+      <div>Lưu ý:</div>
+      <div>- Bạn vui lòng check in trước 11h đêm của ngày {{getCheckInDate() | date: 'dd/MM/yyyy' | nullHyphens}}, nếu ko phiếu đặt sẽ bị <b class="text-danger">huỷ</b>!</div>
+      <div>- Trường hợp bạn muốn đổi thời gian lưu trú xin vui lòng liên hệ tổng đài (+84) 918909911</div>
+    </div>
+  </div>
+</div>

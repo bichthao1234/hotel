@@ -1,0 +1,10 @@
+::ng-deep.mat-dialog-container {
+  height: 75vh !important;
+  width: fit-content;
+  overflow: auto;
+}
+
+.root-classification {
+  width: 80vw;
+  height: 90%;
+}

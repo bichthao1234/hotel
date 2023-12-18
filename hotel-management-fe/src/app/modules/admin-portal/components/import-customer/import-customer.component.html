@@ -1,0 +1,33 @@
+<div>
+  <div class="error-import" *ngIf="errorMessage != ''">
+    <mat-icon class="error-color">error_outline</mat-icon>
+    <small class="text-danger">
+      {{this.errorMessage}}
+    </small>
+  </div>
+  <div class="import-content">
+    <div class="mb-3 w-50">
+      <h4 class="m-1" for="formFileMultiple" class="form-label">Import Customer</h4>
+      <div class="select-file">
+        <input #formFileMultiple class="form-control" type="file" id="formFileMultiple" multiple (change)="loadFile($event)">
+        <label class="clear-button" (click)="clearFile()">
+          <mat-icon>clear</mat-icon>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="sheetNames" class="mx-3 mb-3 w-25">
+      <h4 class="m-1" for="sheetName" class="form-label">Sheet name</h4>
+      <select class="form-select" aria-label="Default select example" (change)="chooseSheet($event)">
+        <option *ngFor="let item of sheetNames" [value]="item">{{item}}</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <button *ngIf="isMatchedFormatFile && sheetName" mat-button (click)="previewFile()">Preview</button>
+    <button *ngIf="isClickedPreview && errorMessage === ''" class="btn-submit" mat-button (click)="uploadFile()">Import</button>
+  </div>
+</div>
+<div *ngIf="customers?.length != 0">
+  <h4 class="m-1" for="formFileMultiple" class="form-label">Preview List Customer</h4>
+  <app-customer-list [customers]="customers" class="mt-5"></app-customer-list>
+</div>

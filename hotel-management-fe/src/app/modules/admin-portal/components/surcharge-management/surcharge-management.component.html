@@ -1,0 +1,62 @@
+<div>
+  <div class="d-flex flex-row align-items-center justify-content-between mt-2 mx-2">
+    <div matTooltip="Thêm dịch vụ"
+         (click)="addNew()"
+         class="pointer-cursor btn-submit rounded d-flex align-content-center btn-add">
+      <span class="material-symbols-outlined">
+        add
+      </span>
+    </div>
+  </div>
+  <mat-divider class="mt-2 w-100"></mat-divider>
+  <p-table #dt [value]="services" dataKey="Id" styleClass="p-datatable-customers" [rowHover]="true"
+           [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+           responsiveLayout="scroll"
+           [paginator]="true"
+           currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords} phụ thu"
+           [filterDelay]="0">
+    <ng-template pTemplate="caption">
+      <h5 class="table-header">
+        Danh sách Phụ thu
+      </h5>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let header of displayedColumns" [pSortableColumn]="header">
+          <div class="flex justify-content-between align-items-center">
+            {{columnHeaders[header]}}
+            <p-sortIcon [field]="header"></p-sortIcon>
+            <p-columnFilter *ngIf="header === 'name'" type="text" [field]="header" display="menu" class="ml-auto"></p-columnFilter>
+          </div>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-service>
+      <tr class="p-selectable-row">
+        <td *ngFor="let header of displayedColumns">
+          <span class="p-column-title">{{columnHeaders[header]}}</span>
+          {{getObject(service, header)}}
+        </td>
+        <td>
+          <div>
+            <button class="btn-outline-primary" mat-button matTooltip="Xem và chỉnh sửa" (click)="openEditDialog(service)">
+              <i class="material-symbols-outlined fs-6">edit</i>
+            </button>
+            <button class="ml-2 btn-edit" mat-button matTooltip="Check giá" (click)="openPriceDialog(service)">
+              <i class="material-symbols-outlined fs-6">payments</i>
+            </button>
+            <button class="ml-2 btn-remove" mat-button matTooltip="Xóa" (click)="clickDelete(service)">
+              <i class="material-symbols-outlined fs-6">delete</i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8">Không có phụ thu nào được tìm thấy</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

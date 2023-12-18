@@ -1,0 +1,90 @@
+<div class="root-classification">
+  <p-panel header="Chi tiết Khuyến mãi" [toggleable]="true" [collapsed]="false">
+    <div class="mb-1">
+      <span class="font-weight-bold">ID: </span>
+      <span>{{data.id}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Mô tả: </span>
+      <span>{{data.description}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Ngày bắt đầu: </span>
+      <span>{{data.startDate | date: 'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="mb-1">
+      <span class="font-weight-bold">Ngày kết thúc: </span>
+      <span>{{data.endDate | date: 'dd/MM/yyyy'}}</span>
+    </div>
+  </p-panel>
+  <mat-divider class="mt-3"></mat-divider>
+  <h5 class="font-weight-bolder">Các hạng phòng áp dụng khuyến mãi</h5>
+  <div class="d-flex flex-row align-items-center justify-content-between mt-2 mx-2">
+    <div [matTooltip]="'Thêm hạng phòng'" class="pointer-cursor btn-submit rounded d-flex align-content-center btn-add" (click)="openAddNewDialog()">
+      <span class="material-symbols-outlined">add</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p-table #dt [value]="data.promotionDetails" dataKey="Id" styleClass="p-datatable-customers" [rowHover]="true"
+             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+             responsiveLayout="scroll"
+             [paginator]="true"
+             currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords}"
+             [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="customerName">
+            <div class="flex justify-content-between align-items-center">
+              ID
+              <p-sortIcon field="customerName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="customerName">
+            <div class="flex justify-content-between align-items-center">
+              Loại phòng
+              <p-sortIcon field="customerName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="id">
+            <div class="flex justify-content-between align-items-center">
+              Kiểu phòng
+              <p-sortIcon field="id"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="createDate">
+            <div class="flex justify-content-between align-items-center">
+              Phần trăm giảm
+              <p-sortIcon field="createDate"></p-sortIcon>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr class="p-selectable-row">
+          <td>
+            <span class="p-column-title">ID</span>
+            <span class="image-text">{{item.roomClassification.id}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Loại phòng</span>
+            <span class="image-text">{{item.roomClassification.roomKind.name}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Kiểu phòng</span>
+            <span class="image-text">{{item.roomClassification.roomType.name}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Phần trăm giảm</span>
+            <span class="image-text">{{item.percent}}</span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Khuyến mãi chưa áp dụng cho hạng phòng nào!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

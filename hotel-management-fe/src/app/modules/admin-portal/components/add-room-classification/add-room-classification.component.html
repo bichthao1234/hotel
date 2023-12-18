@@ -1,0 +1,131 @@
+<div class="root-classification">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Thêm hạng phòng mới</h5>
+      <div class="pointer-cursor" (click)="close()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div [formGroup]="roomClassificationForm" class="container-classification">
+    <div class="w-100 d-flex flex-column justify-content-start align-items-start">
+      <div class="m-item w-100 d-flex flex-column justify-content-between">
+        <label>Ảnh hạng phòng</label>
+        <div class="image-box" (click)="fileInput.click()">
+          <img *ngIf="imageUrl" [src]="imageUrl">
+          <input type="file" #fileInput (change)="previewImage($event)" style="display: none;">
+        </div>
+        <div *ngIf="!imageFile && isSubmit"
+             class="text-danger fs-13px">
+          Hãy chọn ảnh hạng phòng!
+        </div>
+        <button class="btn w-fit tr-hover" *ngIf="imageUrl" (click)="removeImage()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="m-item w-100">
+        <label>Mã hạng phòng</label>
+        <div class="input-group">
+          <input type="text" class="form-control" formControlName="id"
+                 [ngClass]="{'disabled': true}"
+                 placeholder="Mã hạng phòng tự động">
+        </div>
+      </div>
+      <div class="m-item w-100">
+        <label>Giá hạng phòng</label>
+        <div class="input-group">
+          <input  type="number" class="form-control" formControlName="priceRoomClassifications"
+                 [ngClass]="{'is-invalid': roomClassificationForm.get('priceRoomClassifications')?.invalid && isSubmit}">
+          <span class="ml-1"><b>vnđ</b></span>
+          <div *ngIf="roomClassificationForm.get('priceRoomClassifications')?.invalid && isSubmit"
+               class="invalid-feedback fs-13px">
+            Hãy nhập mã hạng phòng!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-100 d-flex flex-column justify-content-start align-items-start">
+      <div class="m-item w-100 d-flex flex-row justify-content-between">
+        <div>
+          <label>Loại phòng</label>
+          <div class="input-group">
+            <p-dropdown [options]="roomKinds" optionLabel="name"
+                        [formControl]="getFormControl('roomKindDto')"
+                        [filter]="true" filterBy="label" [showClear]="false"></p-dropdown>
+          </div>
+        </div>
+        <div>
+          <label>Kiểu phòng</label>
+          <div class="input-group">
+            <p-dropdown [options]="roomTypes" optionLabel="name"
+                        [formControl]="getFormControl('roomTypeDto')"
+                        [filter]="true" filterBy="label" [showClear]="false"></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="m-item w-100">
+        <label>Số lượng khách ở</label>
+        <div class="input-group">
+          <input type="number" class="form-control" formControlName="guestNum"
+                 [ngClass]="{'is-invalid': roomClassificationForm.get('guestNum')?.invalid && isSubmit}">
+          <div *ngIf="roomClassificationForm.get('guestNum')?.invalid && isSubmit"
+               class="invalid-feedback fs-13px">
+            Hãy nhập số lượng khách ở!
+          </div>
+        </div>
+      </div>
+      <div class="m-item w-100">
+        <label>Tiện nghi</label>
+        <div class="input-group">
+          <p-multiSelect (onChange)="convertConvenienceSelected()"
+                         [formControl]="getFormControl('convenienceSelected')"
+                         [options]="conveniences"
+                         optionLabel="name"
+                         display="chip">
+          </p-multiSelect>
+          <div *ngIf="(!convenienceSelected || convenienceSelected?.length === 0) && isSubmit"
+               class="text-danger fs-13px">
+            Hãy chọn tiện nghi cho hạng phòng!
+          </div>
+          <div *ngIf="convenienceSelected && convenienceSelected?.length" class="convenience-selected border rounded p-3 mt-3 w-100">
+            <div class="grid-convenience mb-3">
+              <div class="font-weight-bold">Tên</div>
+              <div class="font-weight-bold">Số lượng</div>
+            </div>
+            <div *ngFor="let item of convenienceDetailSelected">
+              <div class="grid-convenience">
+                <div class="font-italic">{{item.convenience.name}}</div>
+                <div>
+                  <div class="input-group">
+                    <input [formControl]="item.quantity" type="number" class="form-control"
+                           min="0" max="99"
+                           [ngClass]="{'is-invalid': !checkQuantityConvenience(item) && isSubmit}">
+                    <div *ngIf="!checkQuantityConvenience(item) && isSubmit"
+                         class="invalid-feedback">
+                      Số lượng phải lớn hơn 0!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-item w-100">
+        <label>Mô tả</label>
+        <div class="input-group">
+          <textarea rows="5" class="w-100" pInputTextarea formControlName="description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-end">
+    <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="close()">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  </div>
+</div>

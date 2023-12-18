@@ -1,0 +1,36 @@
+<div class="first-content">
+  <div class="img-hotel">
+    <img class="slide-image-hotel" src="assets/images/user-image-page.jpg" alt="">
+    <div class="m-search-rooms-class rounded">
+      <div class="w-75 d-flex flex-row justify-content-around align-items-end">
+        <div class="mb-1 w-100 mx-2">
+          <app-range-date-picker title="Ngày nhận - trả phòng"
+                                 (respDateSelected)="sendDate($event)"></app-range-date-picker>
+        </div>
+        <!--        <div class="mb-1 w-25 mx-2">-->
+        <!--          <div class="t-num-of-room">-->
+        <!--            <label for="t-num-of-room" class="form-label">Số phòng</label>-->
+        <!--            <div class="input-group">-->
+        <!--              <span class="input-group-text" id="addon-wrapping">-->
+        <!--                <span class="material-symbols-outlined">home</span>-->
+        <!--              </span>-->
+        <!--              <input [(ngModel)]="roomNum" type="number" class="form-control bg-white" id="t-num-of-room" [min]="1" [max]="99">-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+      </div>
+      <div class="mb-1">
+        <button mat-button class="btn btn-booking-search" (click)="openSearchPage()">
+          <span class="material-symbols-outlined">search</span>
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div>
+      <h4 class="pl-3">Các hạng phòng</h4>
+      <app-advertisement-slides></app-advertisement-slides>
+    </div>
+  </div>
+</div>

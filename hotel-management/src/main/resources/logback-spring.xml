@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- TODO It should use Relative Path instead absolute path -->
+	<!-- Default -->
+	<property name="LOG_PATH" value="log" />
+	<property name="LOG_NAME" value="hotel-management.log" />
+
+	<springProfile name="default">
+		<property name="LOG_PATH" value="log" />
+	</springProfile>
+
+	<springProfile name="test">
+		<property name="LOG_PATH" value="log" />
+	</springProfile>
+
+	<springProfile name="prod">
+		<property name="LOG_PATH" value="log" />
+	</springProfile>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${LOG_NAME}</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${LOG_NAME}-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+			<maxFileSize>20MB</maxFileSize>
+			<maxHistory>50</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %5p %t %c{2}:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.my.hotel" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOG_FILE" />
+	</logger>
+
+	<logger name="org.springframework" level="ERROR" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOG_FILE" />
+	</logger>
+
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+		<appender-ref ref="LOG_FILE" />
+	</logger>
+
+	<logger name="org.hibernate.SQL" level="TRACE" additivity="false">
+		<appender-ref ref="LOG_FILE" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

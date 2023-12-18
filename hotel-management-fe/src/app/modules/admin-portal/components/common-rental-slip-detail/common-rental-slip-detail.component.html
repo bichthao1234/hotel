@@ -1,0 +1,156 @@
+<div *ngIf="isDisplay()" class="d-flex flex-column justify-content-between wrap-common-rental-slip">
+  <div class="d-flex flex-row h-100">
+    <div class="col-3 border-top-0 border-left-0 border-bottom-0 m-service h-100">
+      <mat-tab-group animationDuration="300ms">
+        <mat-tab label="Dịch vụ">
+          <div>
+            <ng-container *ngTemplateOutlet="serviceTemplate"></ng-container>
+          </div>
+        </mat-tab>
+        <mat-tab label="Phụ thu">
+          <ng-container *ngTemplateOutlet="surchargeTemplate"></ng-container>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="h-100 col-9">
+      <mat-tab-group class="rental-slip-room" animationDuration="300ms" (selectedTabChange)="roomTabChange($event)">
+        <mat-tab *ngFor="let rentalSlipDetail of rentalSlipDetails" [label]="rentalSlipDetail.roomId">
+          <div class="rounded rental-detail-item p-3">
+            <div>
+              <label class="font-weight-bold font-italic">{{rentalSlipDetail.roomName}}</label>
+            </div>
+            <div class="d-flex flex-row align-items-center">
+              <label>Phòng: {{rentalSlipDetail.roomId}}</label>
+              <label *ngIf="!rentalSlipDetail.status" [ngClass]="CommonUtil.getClassOfRoomStatus(rentalSlipDetail.roomStatus)"
+                     class="px-1 ml-3 w-fit rounded fs-13px">{{rentalSlipDetail.roomStatus.name}}</label>
+              <label *ngIf="rentalSlipDetail.status" class="px-1 ml-3 w-fit rounded fs-13px status-available-room">Đã trả phòng</label>
+            </div>
+            <div>
+              <label>Thời gian Đặt: {{rentalSlipDetail.arrivalDate | date: 'dd/MM/yyyy'}}
+                - {{rentalSlipDetail.departureDate | date: 'dd/MM/yyyy'}}
+                ({{getDateRange(rentalSlipDetail.arrivalDate, rentalSlipDetail.departureDate)}} ngày) </label>
+            </div>
+            <div *ngIf="rentalSlipDetail?.checkInDate">
+              <label>Ngày check in: {{rentalSlipDetail?.checkInDate | date: 'dd/MM/yyyy'}}</label>
+            </div>
+            <div *ngIf="rentalSlipDetail?.status && rentalSlipDetail?.checkOutDate">
+              <label>Ngày check out: {{rentalSlipDetail?.checkOutDate | date: 'dd/MM/yyyy'}}</label>
+            </div>
+            <div>Thành tiền: {{getPriceFormat(rentalSlipDetail.totalRoomPrice)}}
+              vnđ ({{rentalSlipDetail.stayingDay}} ngày)
+            </div>
+          </div>
+          <div class="mt-1">
+            <div class="p-2 rounded m-area">
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <div class="font-weight-bold">Dịch vụ</div>
+                <button matTooltip="Mở rộng" *ngIf="!showService" (click)="changeShowService()" class="btn"><span class="material-symbols-outlined">add</span></button>
+                <button matTooltip="Thu nhỏ"  *ngIf="showService" (click)="changeShowService()" class="btn"><span class="material-symbols-outlined">minimize</span></button>
+              </div>
+              <div [ngClass]="{'show': showService, 'hidden': !showService}">
+                <div *ngFor="let service of getServiceWithRoomId(rentalSlipDetail.roomId)">
+                  <div class="service-item m-service-item align-items-center rounded mt-2 px-2 py-3">
+                    <div class="d-flex flex-row align-items-center">
+                      <button [disabled]="service.status === 1" class="btn text-danger"
+                              (click)="removeService(roomShow, service.service.id)">
+                        <span class="material-symbols-outlined">delete</span>
+                      </button>
+                      <span class="font-weight-bold">{{service.service.name}} ({{service.service.unit}})</span>
+                    </div>
+                    <div [matTooltip]="'Số lượng'" class="w-50">
+                      <input class="form-control" type="number" min="1" [disabled]="service.status === 1"
+                             [value]="service.quantity"
+                             (change)="changeQuantityService(rentalSlipDetail.roomId, service.service.id, $event)">
+                    </div>
+                    <div [matTooltip]="'Đơn giá'">
+                      <span>{{getPrice(service.price)}}</span>
+                    </div>
+                    <div [matTooltip]="'Thành tiền'">
+                      <span>{{getPriceFormat(service.quantity * service.price)}}</span>
+                    </div>
+                    <div>
+                      <div *ngIf="service.status === 0" class="w-75" (click)="paymentServiceDetail(rentalSlipDetail, service)">
+                        <button class="btn btn-outline-primary">Thanh toán</button>
+                      </div>
+                      <div *ngIf="service.status === 1" class="w-75">
+                        <span class="rounded w-fit bg-color-gray px-1 py-2 d-block align-items-center">Đã thanh toán</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--            surcharge-->
+            <div class="p-2 rounded m-area">
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <div class="font-weight-bold">Phụ thu</div>
+                <button matTooltip="Mở rộng"  *ngIf="!showSurcharge" (click)="changeSurcharge()" class="btn"><span class="material-symbols-outlined">add</span></button>
+                <button matTooltip="Thu nhỏ"  *ngIf="showSurcharge" (click)="changeSurcharge()" class="btn"><span class="material-symbols-outlined">minimize</span></button>
+              </div>
+              <div [ngClass]="{'show': showSurcharge, 'hidden': !showSurcharge}">
+                <div *ngFor="let surcharge of getSurchargeWithRoomId(rentalSlipDetail.roomId)">
+                  <div class="service-item m-service-item align-items-center rounded mt-2 px-2 py-3">
+                    <div class="d-flex flex-row align-items-center">
+                      <button [disabled]="surcharge.status === 1" class="btn text-danger"
+                              (click)="removeSurcharge(roomShow, surcharge.surcharge.id)">
+                        <span class="material-symbols-outlined">delete</span>
+                      </button>
+                      <span class="font-weight-bold">{{surcharge.surcharge.name}}</span>
+                    </div>
+                    <div [matTooltip]="'Số lượng'" class="w-50">
+                      <input class="form-control" type="number" min="1" [disabled]="surcharge.status === 1"
+                             [value]="surcharge.quantity"
+                             (change)="changeQuantitySurcharge(rentalSlipDetail.roomId, surcharge.surcharge.id, $event)">
+                    </div>
+                    <div [matTooltip]="'Đơn giá'">
+                      <span>{{getPrice(surcharge.price)}}</span>
+                    </div>
+                    <div [matTooltip]="'Thành tiền'">
+                      <span>{{getPriceFormat(surcharge.quantity * surcharge.price)}}</span>
+                    </div>
+                    <div>
+                      <div *ngIf="surcharge.status === 0" class="w-75" (click)="paymentSurchargeDetail(rentalSlipDetail, surcharge)">
+                        <button class="btn btn-outline-primary">Thanh toán</button>
+                      </div>
+                      <div *ngIf="surcharge.status === 1" class="w-75">
+                        <span class="rounded w-fit bg-color-gray px-1 py-2 d-block align-items-center">Đã thanh toán</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 w-100 d-flex flex-row justify-content-end p-3">
+              <h6>Tiền đã cọc / phòng: {{getPriceFormat(rentalSlipDetail.deposit)}}</h6>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  <div class="w-100 d-flex flex-row justify-content-end p-3" *ngIf="!isAllPaid">
+    <button class="btn btn-outline-success" (click)="saveRentalSlipDetail()">Lưu</button>
+    <button class="btn btn-outline-primary ml-2" (click)="openDialog()">Tổng thanh toán {{getPriceFormat(getTotalPrice())}}</button>
+  </div>
+</div>
+
+<ng-template #serviceTemplate>
+  <div class="m-service-list mt-3">
+    <div *ngFor="let service of services">
+      <div [ngClass]="{'disabled': checkRoomStatus()}" class="rounded m-service-item tr-hover pointer-cursor" (click)="addService(service)">
+        <div class="font-weight-bolder">{{service.name}} <span>({{service.unit}})</span></div>
+        <div class="fs-13px text-black-50">{{getPrice(service.priceService)}} vnđ</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #surchargeTemplate>
+  <div class="m-service-list mt-3">
+    <div *ngFor="let surcharge of surcharges">
+      <div [ngClass]="{'disabled': checkRoomStatus()}" class="rounded m-service-item tr-hover pointer-cursor" (click)="addSurcharge(surcharge)">
+        <div class="font-weight-bolder">{{surcharge.name}}</div>
+        <div class="fs-13px text-black-50">{{getPrice(surcharge.priceSurcharge)}} vnđ</div>
+      </div>
+    </div>
+  </div>
+</ng-template>

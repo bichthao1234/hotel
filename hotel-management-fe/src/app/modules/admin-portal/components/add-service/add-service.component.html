@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Thêm dịch vụ</h1>
+<div mat-dialog-content >
+  <div class="add-room-type-content" [formGroup]="serviceForm">
+    <div class="mb-3">
+      <label for="name" class="form-label">Tên</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="name" formControlName="name"
+               [ngClass]="{'is-invalid': serviceForm.controls['name'].invalid && isSubmit}">
+        <div
+          *ngIf="serviceForm.controls['name'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập tên dịch vụ!
+        </div>
+      </div>
+      <label for="unit" class="form-label">Đơn vị tính</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="unit" formControlName="unit"
+               [ngClass]="{'is-invalid': serviceForm.controls['unit'].invalid && isSubmit}">
+        <div
+          *ngIf="serviceForm.controls['unit'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập đơn vị tính của dịch vụ!
+        </div>
+      </div>
+      <label for="price" class="form-label">Giá</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="price" formControlName="price"
+               [ngClass]="{'is-invalid': serviceForm.controls['price'].invalid && isSubmit}">
+        <div
+          *ngIf="serviceForm.controls['price'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập Giá dịch vụ!
+        </div>
+      </div>
+      <label for="description" class="form-label">Mô tả</label>
+      <div class="input-group">
+        <textarea type="text" class="form-control" id="description" formControlName="description"
+               [ngClass]="{'is-invalid': serviceForm.controls['description'].invalid && isSubmit}">
+        </textarea>
+        <div
+          *ngIf="serviceForm.controls['description'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập mô tả dịch vụ!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

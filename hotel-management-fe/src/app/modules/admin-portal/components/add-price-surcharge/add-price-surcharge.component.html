@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Thêm Giá phụ thu</h1>
+<div mat-dialog-content >
+  <div class="add-room-type-content" [formGroup]="priceRoomClassForm">
+    <div class="mb-3">
+      <label class="form-label">Ngày áp dụng</label>
+      <div class="input-group">
+        <p-calendar formControlName="appliedDate" dateFormat="dd/mm/yy" [readonlyInput]="true"></p-calendar>
+        <div
+          *ngIf="priceRoomClassForm.controls['appliedDate'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập Ngày áp dụng!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Giá</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="price" formControlName="price"
+               [ngClass]="{'is-invalid': priceRoomClassForm.controls['price'].invalid && isSubmit}">
+        <div
+          *ngIf="priceRoomClassForm.controls['price'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập Giá hạng phòng!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

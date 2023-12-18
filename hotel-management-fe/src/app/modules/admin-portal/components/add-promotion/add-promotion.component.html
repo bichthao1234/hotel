@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Thêm Khuyến mãi</h1>
+<div mat-dialog-content >
+  <div class="add-room-type-content" [formGroup]="promotionForm">
+    <div class="mb-3">
+      <label for="description" class="form-label">Mô tả</label>
+      <div class="input-group">
+        <textarea type="text" class="form-control" id="description" formControlName="description"
+               [ngClass]="{'is-invalid': promotionForm.controls['description'].invalid && isSubmit}">
+        </textarea>
+        <div
+          *ngIf="promotionForm.controls['description'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập mô tả dịch vụ!
+        </div>
+      </div>
+      <label class="form-label">Thời gian</label>
+      <div class="input-group">
+        <app-range-date-picker [showBtnToggle]="false" [startDate]="startDate" [endDate]="endDate"
+                               (respDateSelected)="getDate($event)"></app-range-date-picker>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

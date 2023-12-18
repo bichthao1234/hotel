@@ -1,0 +1,128 @@
+<div class="detail-manifest pb-2">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Danh sách khách hàng</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="d-flex align-content-center justify-content-end">
+    <div class="pointer-cursor btn-submit rounded btn-add"
+         (click)="addNewCustomerDialog()">
+      <span [matTooltip]="'Thêm mới khách hàng'" class="material-symbols-outlined">
+        add
+      </span>
+    </div>
+  </div>
+  <div class="mb-4">
+    <b>Khách ở đã chọn</b>
+    <div *ngIf="addCustomerList">
+      <p-chip class="m-1 p-2" *ngFor="let customerAddItem of addCustomerList">
+        {{customerAddItem.lastName}} {{customerAddItem.firstName}}
+        <span (click)="removeCustomerAdd(customerAddItem)" class="material-symbols-outlined pointer-cursor fs-13px">close</span>
+      </p-chip>
+    </div>
+  </div>
+  <div>
+    <p-table *ngIf="customerList" #dt [value]="customerList" dataKey="Id" styleClass="p-datatable-customers"
+             [rowHover]="true"
+             [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+             responsiveLayout="scroll"
+             [paginator]="true"
+             currentPageReportTemplate="Đang hiển thị {first} đến {last} của {totalRecords} khách hàng"
+             [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">
+            <div class="flex justify-content-between align-items-center">
+              CCCD/CMND
+              <p-sortIcon field="id"></p-sortIcon>
+              <p-columnFilter type="text" field="id" display="menu" class="ml-auto"></p-columnFilter>
+            </div>
+          </th>
+          <th pSortableColumn="firstName">
+            <div class="flex justify-content-between align-items-center">
+              Tên
+              <p-sortIcon field="firstName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="lastName">
+            <div class="flex justify-content-between align-items-center">
+              Họ
+              <p-sortIcon field="lastName"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="email">
+            <div class="flex justify-content-between align-items-center">
+              Email
+              <p-sortIcon field="email"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="phoneNumber">
+            <div class="flex justify-content-between align-items-center">
+              SĐT
+              <p-sortIcon field="phoneNumber"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="taxNumber">
+            <div class="flex justify-content-between align-items-center">
+              Mã số thuế
+              <p-sortIcon field="taxNumber"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="address">
+            <div class="flex justify-content-between align-items-center">
+              Địa chỉ
+              <p-sortIcon field="address"></p-sortIcon>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr class="p-selectable-row" (click)="selectCustomer(customer)">
+          <td>
+            <span class="p-column-title">CCCD/CMND</span>
+            {{customer.id}}
+          </td>
+          <td>
+            <span class="p-column-title">Tên</span>
+            <span class="image-text">{{customer.firstName}}</span>
+          </td>
+          <td>
+            <span class="p-column-title">Họ</span>
+            {{customer.lastName}}
+          </td>
+          <td>
+            <span class="p-column-title">Email</span>
+            {{customer.email}}
+          </td>
+          <td>
+            <span class="p-column-title">SĐT</span>
+            {{customer.phoneNumber}}
+          </td>
+          <td>
+            <span class="p-column-title">Mã số thuế</span>
+            {{customer.taxNumber}}
+          </td>
+          <td>
+            <span class="p-column-title">Địa chỉ</span>
+            {{customer.address}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="8">Không có khách hàng nào được tìm thấy</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="mt-3 mb-3 d-flex align-items-center justify-content-end">
+    <button class="btn btn-success" (click)="acceptCustomerList()"><span class="text-white">Xác nhận khách ở</span></button>
+  </div>
+  <div>
+    <br>
+  </div>
+</div>

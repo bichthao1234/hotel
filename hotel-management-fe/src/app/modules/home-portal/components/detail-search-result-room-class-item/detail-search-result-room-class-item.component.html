@@ -1,0 +1,57 @@
+<div *ngIf="!carousel" class="d-flex w-100 flex-row p-3 mb-3 bg-white rounded pointer-cursor">
+  <div *ngIf="roomClassImage" (click)="openRoomClassificationDetail()">
+    <img class="img-room-num-class-small" src="http://localhost:9095/hotel-ws/api/v1/image/{{roomClassImage}}">
+  </div>
+  <div class="ml-4 w-100 d-flex flex-column justify-content-between">
+    <div class="d-flex flex-column" (click)="openRoomClassificationDetail()">
+      <h5>{{roomClassification?.roomKind?.name}}</h5>
+      <label>{{roomClassification?.roomType?.name}}</label>
+    </div>
+    <div class="w-100 d-flex flex-row align-items-center justify-content-between">
+      <div *ngIf="price?.priceAfterPromotion" class="d-flex flex-row" (click)="openRoomClassificationDetail()">
+        <div class="d-flex flex-column">
+          <div *ngIf="price?.hasPromotion" class="m-price">
+            <span>{{getShowPrice(price?.roomClassPrice)}}đ</span>
+          </div>
+          <div class="d-flex flex-row">
+            <h6 class="m-price-promotion">{{getShowPrice(price?.priceAfterPromotion)}}đ</h6>
+            <label class="fs-10px">/đêm</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="numRoomSelect" (change)="chooseNumRoom($event)">
+          <option *ngFor="let i of numRoomList" [value]="i">{{showNumRoom(i)}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="carousel" class="bg-white rounded mx-2 w-fit pointer-cursor">
+  <div *ngIf="roomClassImage" (click)="openRoomClassificationDetail()">
+    <img class="rounded-top img-room-num-class-small"
+         src="http://localhost:9095/hotel-ws/api/v1/image/{{roomClassImage}}">
+  </div>
+  <div class="p-3 d-flex flex-row align-items-end justify-content-between">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-column">
+        <h5>{{roomClassification?.roomKind?.name}}</h5>
+        <label>{{roomClassification?.roomType?.name}}</label>
+      </div>
+      <div class="d-flex flex-row">
+        <div *ngIf="price?.priceAfterPromotion" class="d-flex flex-row">
+          <div class="d-flex flex-column">
+            <div *ngIf="price?.hasPromotion" class="m-price">
+              <span>{{getShowPrice(price?.roomClassPrice)}}đ</span>
+            </div>
+            <div class="d-flex flex-row">
+              <h6 class="m-price-promotion">{{getShowPrice(price?.priceAfterPromotion)}}đ</h6>
+              <label class="fs-10px">/đêm</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button mat-button class="btn-book-now" (click)="openRoomClassificationDetail()">Xem chi tiết</button>
+  </div>
+</div>

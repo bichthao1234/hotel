@@ -1,0 +1,14 @@
+<header class="header-admin"
+        [ngClass]="{'expand': togglesStatus, 'collapse': !togglesStatus}">
+  <div>
+    <div class="btn-profile">
+      <div class="style-employee">
+        <div class="fst-italic fs-6 mr-2">Hi,</div>
+        <div class="fs-5 style-employee-firstname">{{employee?.lastName}}</div>
+      </div>
+      <button class="log-out border-0 bg-white" (click)="logout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      </button>
+    </div>
+  </div>
+</header>

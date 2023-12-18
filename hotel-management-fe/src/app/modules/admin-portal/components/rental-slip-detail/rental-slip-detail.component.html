@@ -1,0 +1,33 @@
+<div *ngIf="rentalDetail">
+  <div class="mb-1">
+    <span class="font-weight-bold">Mã CT phiếu thuê: </span>
+    <span>{{rentalDetail?.rentalSlipId}}</span>
+  </div>
+  <div class="mb-1">
+    <span class="font-weight-bold">Ngày nhận phòng: </span>
+    <span>{{rentalDetail?.arrivalDate | date: 'dd/MM/yyyy'}}</span>
+  </div>
+  <div class="mb-1">
+    <span class="font-weight-bold">Ngày trả phòng (dự kiến): </span>
+    <span>{{rentalDetail?.departureDate | date: 'dd/MM/yyyy'}}</span>
+  </div>
+  <div class="mb-1">
+    <span class="font-weight-bold">Trạng thái: </span>
+    <span>{{getStatus(rentalDetail?.status)}}</span>
+  </div>
+  <div>
+    <p-panel header="Chi tiết khách ở" [toggleable]="true" [collapsed]="true">
+      <app-customer-retal-slip-detail [roomId]="roomId"></app-customer-retal-slip-detail>
+    </p-panel>
+  </div>
+  <div *ngIf="rentalDetail?.haveSurcharge">
+    <p-panel header="Chi tiết phụ thu" [toggleable]="true" [collapsed]="true">
+      <app-surcharge-retal-slip-detail [roomId]="roomId"></app-surcharge-retal-slip-detail>
+    </p-panel>
+  </div>
+  <div *ngIf="rentalDetail?.haveService">
+    <p-panel header="Chi tiết dịch vụ" [toggleable]="true" [collapsed]="true">
+      <app-service-retal-slip-detail [roomId]="roomId"></app-service-retal-slip-detail>
+    </p-panel>
+  </div>
+</div>

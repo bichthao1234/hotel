@@ -1,0 +1,106 @@
+<div *ngIf="invoice" id="printableArea" #printableArea>
+  <div class="w-100 d-flex flex-column justify-content-start">
+    <div>
+      Liên số: Liên 1
+    </div>
+    <div>Ngày xuất hoá đơn {{invoice.createdDate | date: 'dd/MM/yyy'}}</div>
+  </div>
+  <div class="mt-4 d-flex flex-column align-items-center justify-content-center font-weight-bolder">
+    <h4>HOÁ ĐƠN THANH TOÁN</h4>
+    <h6>{{invoice.invoiceId}}</h6>
+  </div>
+  <div>
+    <div>
+      <label class="mr-5"><label class="font-weight-bold">Khách hàng: </label> {{invoice.customer.name}}</label>
+      <label class="ml-5 mr-5"><label class="font-weight-bold">CMND: </label> {{invoice.customer.id}}</label>
+      <label class="ml-5"><label class="font-weight-bold">SĐT KH: </label> {{invoice.customer.phone}}</label>
+    </div>
+    <div>
+      <label><label class="font-weight-bold">Mã PT: </label> {{invoice.rentalSlipId}}</label>
+    </div>
+    <div>
+      <label><label class="font-weight-bold">Thu ngân: </label> {{invoice.employeeName}}</label>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="d-flex justify-content-start">
+          <label><label class="font-weight-bold">Ngày đặt: </label> {{invoice.reservation.createdDate | date: 'dd/MM/yyyy'}}</label>
+        </div>
+      </div>
+      <div class="col-4"></div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+  <hr class="dotted">
+  <div class="d-flex flex-column mt-3">
+    <div class="d-flex flex-wrap mb-5">
+      <div class="col-6 font-weight-bold">Nội dung</div>
+      <div class="col-2 font-weight-bold">Đơn giá</div>
+      <div class="col-2 d-flex flex-row justify-content-center font-weight-bold"><span>Số lượng</span></div>
+      <div class="col-2 font-weight-bold">Thành tiền</div>
+    </div>
+    <div *ngFor="let room of invoice.roomList" class="mb-5">
+      <div class="d-flex flex-wrap w-100 mb-3">
+        <div class="col-6 d-flex flex-column align-items-start">
+          <div>{{room.name}}</div>
+          <div>{{room.id}}</div>
+          <div>{{room.arrivalDate | date: 'dd/MM/yyyy'}} - {{room.departureDate | date: 'dd/MM/yyyy'}}</div>
+        </div>
+        <div class="col-2">{{getPrice(room.price)}}</div>
+        <div class="col-2 d-flex flex-row justify-content-center">{{room.stayingDay}}</div>
+        <div class="col-2">{{getPrice(room.price * room.stayingDay)}}</div>
+      </div>
+      <hr class="dotted">
+    </div>
+    <div *ngFor="let surcharge of invoice.surchargeList" class="mb-5">
+      <div class="d-flex flex-wrap w-100 mb-3">
+        <div class="col-6">
+          {{surcharge.name}}
+        </div>
+        <div class="col-2">{{getPrice(surcharge.price)}}</div>
+        <div class="col-2 d-flex flex-row justify-content-center">{{surcharge.quantity}}</div>
+        <div class="col-2">{{getPrice(surcharge.price * surcharge.quantity)}}</div>
+      </div>
+      <hr class="dotted">
+    </div>
+    <div *ngFor="let service of invoice.serviceList" class="mb-5">
+      <div class="d-flex flex-wrap w-100 mb-3">
+        <div class="col-6">
+          {{service.name}}
+        </div>
+        <div class="col-2">{{getPrice(service.price)}}</div>
+        <div class="col-2 d-flex flex-row justify-content-center">{{service.quantity}}</div>
+        <div class="col-2">{{getPrice(service.price * service.quantity)}}</div>
+      </div>
+      <hr class="dotted">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <div class="d-flex flex-column align-items-end justify-content-end">
+        <div class="font-weight-bold">Tổng tiền:</div>
+        <div class="font-weight-bold">Chiết khấu/Giảm giá:</div>
+        <div class="font-weight-bold">Đặt cọc:</div>
+        <div class="font-weight-bold">Khách trả:</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="d-flex flex-column align-items-end justify-content-end">
+        <div>{{getPrice(invoice.totalInvoice)}} (vnđ)</div>
+        <div>{{getPrice(invoice.promotion)}} (vnđ)</div>
+        <div>{{getPrice(invoice.deposit)}} (vnđ)</div>
+        <div>{{getCredit(invoice.totalInvoice, invoice.promotion, invoice.deposit)}} (vnđ)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-row">
+  <button matTooltip="In file" (click)="printInvoice()" [autofocus]="false" class="mr-3 btn btn-primary">
+    <span class="material-symbols-outlined">print</span>
+  </button>
+  <button matTooltip="Xuất file" (click)="downloadPDF()" class="btn btn-success">
+    <span class="material-symbols-outlined">picture_as_pdf</span>
+  </button>
+</div>
+<iframe name="print_frame" width="0" height="0" frameborder="0"></iframe>

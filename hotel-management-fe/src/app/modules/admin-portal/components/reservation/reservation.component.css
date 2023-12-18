@@ -1,0 +1,32 @@
+label {
+  font-size: 13px !important;
+  font-weight: bold;
+}
+.m-date-item {
+  width: 20vw !important;
+}
+
+:host ::ng-deep .p-multiselect {
+  min-width: 6rem;
+  width: 10vw;
+}
+
+:host ::ng-deep .multiselect-custom .p-multiselect-label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+@media screen and (max-width: 640px) {
+  :host ::ng-deep .p-multiselect {
+    width: 100%;
+  }
+}
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 150px !important;
+  border-radius: 10px;
+  padding: 2px 10px;
+}

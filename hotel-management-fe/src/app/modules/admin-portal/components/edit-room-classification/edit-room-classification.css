@@ -1,0 +1,61 @@
+::ng-deep.mat-dialog-container {
+  height: 98vh !important;
+  width: fit-content;
+}
+
+:host ::ng-deep .p-multiselect {
+  min-width: 20rem;
+  width: 32rem;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 15rem;
+}
+
+.container-classification {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  align-items: start;
+}
+
+.m-item {
+  margin-bottom: 20px;
+}
+
+.root-classification {
+  width: 80vw;
+  height: 100%;
+}
+
+.image-box {
+  width: 200px;
+  height: 200px;
+  border: 1px dashed #afafaf;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.convenience-selected {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+.grid-convenience {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  align-items: start;
+  justify-content: space-between;
+  padding: 5px 0;
+}

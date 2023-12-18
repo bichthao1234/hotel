@@ -1,0 +1,7 @@
+<p-carousel *ngIf="roomNums" [value]="roomNums" [numVisible]="5" [circular]="true" [numScroll]="1" [autoplayInterval]="5000">
+  <ng-template let-roomNum pTemplate="item">
+    <div class="w-fit">
+      <app-detail-search-result-room-class-item [startDate]="startDate" [roomClassId]="roomNum.id" [carousel]="true"></app-detail-search-result-room-class-item>
+    </div>
+  </ng-template>
+</p-carousel>

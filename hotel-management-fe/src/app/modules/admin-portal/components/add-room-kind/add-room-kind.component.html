@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Thêm loại phòng</h1>
+<div mat-dialog-content >
+  <div class="add-room-type-content" [formGroup]="roomKindForm">
+    <div class="mb-3">
+      <label for="room-type-name" class="form-label">Tên</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-type-name" formControlName="roomKindName"
+               [ngClass]="{'is-invalid': roomKindForm.controls['roomKindName'].invalid && isSubmit}">
+        <div
+          *ngIf="roomKindForm.controls['roomKindName'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập tên loại phòng!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

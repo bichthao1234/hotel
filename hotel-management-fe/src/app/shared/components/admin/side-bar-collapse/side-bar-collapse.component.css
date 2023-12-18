@@ -1,0 +1,27 @@
+.menu-item {
+  margin: 10px 5px;
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  position: relative;
+  z-index: 0;
+}
+
+.list-item-active, .list-item-highlight {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.m-item {
+  font-size: small;
+}
+
+#hidden-item {
+  display: none;
+}
+
+.m-item:hover #hidden-item {
+  display: inline;
+}
+.m-item:hover {
+}

@@ -1,0 +1,86 @@
+<div class="m-detail-room">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Thanh toán phòng</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="d-flex flex-column mt-3">
+    <div class="row mb-5">
+      <div class="col-3 font-weight-bold">Nội dung</div>
+      <div class="col-3 font-weight-bold">Đơn giá</div>
+      <div class="col-3 font-weight-bold">Số lượng</div>
+      <div class="col-3 font-weight-bold">Thành tiền</div>
+    </div>
+    <div *ngFor="let rentalSlipDetail of rentalSlipDetails" class="mb-5">
+      <div class="row w-100 mb-3">
+        <div class="col-3">
+          <div class="d-flex flex-column align-items-start">
+            <div>{{rentalSlipDetail.roomName}}</div>
+            <div>{{rentalSlipDetail.roomId}}</div>
+            <div>{{rentalSlipDetail.arrivalDate | date: 'dd/MM/yyyy'}} - {{rentalSlipDetail.departureDate | date: 'dd/MM/yyyy'}}</div>
+          </div>
+        </div>
+        <div class="col-3">{{getPrice(rentalSlipDetail.roomPrice)}}</div>
+        <div class="col-3">{{rentalSlipDetail.stayingDay}}</div>
+        <div class="col-3">{{getPrice(rentalSlipDetail.roomPrice * rentalSlipDetail.stayingDay)}}</div>
+      </div>
+      <mat-divider class="w-100 customer-border"></mat-divider>
+    </div>
+    <div *ngFor="let surcharge of surcharges" class="mb-5">
+      <div class="row w-100 mb-3">
+        <div class="col-3">
+          <div class="d-flex flex-column align-items-start">
+            <div>{{surcharge.surcharge.name}}</div>
+            <div>{{surcharge.surcharge.description}}</div>
+            <div>{{getStatus(surcharge.status)}}</div>
+          </div>
+        </div>
+        <div class="col-3">{{getPrice(surcharge.price)}}</div>
+        <div class="col-3">{{surcharge.quantity}}</div>
+        <div class="col-3">{{getPrice(surcharge.price * surcharge.quantity)}}</div>
+      </div>
+      <mat-divider class="w-100 customer-border"></mat-divider>
+    </div>
+    <div *ngFor="let service of services" class="mb-5">
+      <div class="row w-100 mb-3">
+        <div class="col-3">
+          <div class="d-flex flex-column align-items-start">
+            <div>{{service.service.name}}</div>
+            <div>{{service.service.description}}</div>
+            <div>{{getStatus(service.status)}}</div>
+          </div>
+        </div>
+        <div class="col-3">{{getPrice(service.price)}}</div>
+        <div class="col-3">{{service.quantity}}</div>
+        <div class="col-3">{{getPrice(service.price * service.quantity)}}</div>
+      </div>
+      <mat-divider class="w-100 customer-border"></mat-divider>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <div class="d-flex flex-column align-items-end justify-content-end">
+        <div>Tổng tiền:</div>
+        <div>Khách cọc:</div>
+        <div>Đã thanh toán:</div>
+        <div>Còn lại:</div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="d-flex flex-column align-items-end justify-content-end">
+        <div>{{getPrice(total)}}</div>
+        <div>- {{getPrice(deposit)}}</div>
+        <div>- {{getPrice(paidAmount)}}</div>
+        <div class="font-weight-bold">{{getPrice(total - deposit - paidAmount)}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="w-100 d-flex flex-row justify-content-end p-3">
+    <button class="btn btn-outline-primary ml-2" (click)="handlePayment()">Thanh toán {{getPrice(total - deposit - paidAmount)}}</button>
+  </div>
+</div>

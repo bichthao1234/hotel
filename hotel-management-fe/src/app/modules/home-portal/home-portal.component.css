@@ -1,0 +1,6 @@
+.user-content {
+  min-height: 100vh !important;
+  max-height: fit-content;
+  margin-top: 75px;
+  background-color: #f1f1f1;
+}

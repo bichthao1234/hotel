@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Thêm Chi tiết khuyến mãi</h1>
+<div mat-dialog-content >
+  <div class="add-room-type-content">
+    <label class="form-label">Hạng phòng</label>
+    <p-autoComplete id="representativeCustomer"
+                    [(ngModel)]="chooseRoomClass"
+                    [suggestions]="roomClassListFilter"
+                    field="id"
+                    [showEmptyMessage]="true"
+                    [showClear]="true"
+                    [dropdown]="true"
+                    (onSelect)="selectRoomClass()"
+                    (onClear)="resetChooseRoomClass()"
+                    (completeMethod)="searchRoomClass($event)">
+      <ng-template let-roomClass pTemplate="item">
+        <div class="d-flex flex-column align-items-start">
+          <div class="d-flex flex-row align-items-center mr-2">
+            <span class="mr-1">ID:</span>
+            <i>{{roomClass.id}}</i>
+          </div>
+          <div class="d-flex flex-row align-items-center">
+            <span class="mr-1">Hạng phòng:</span>
+            <i>{{roomClass.roomKind.name}} {{roomClass.roomType.name}}</i>
+          </div>
+        </div>
+      </ng-template>
+    </p-autoComplete>
+    <p-panel *ngIf="isSelectRoomClass && chooseRoomClass" header="Chi tiết Hạng phòng" [toggleable]="true" [collapsed]="false">
+      <div class="mb-1">
+        <span class="font-weight-bold">ID Hạng phòng: </span>
+        <span>{{chooseRoomClass.id}}</span>
+      </div>
+      <div class="mb-1">
+        <span class="font-weight-bold">Kiều phòng: </span>
+        <span>{{chooseRoomClass.roomType.name}}</span>
+      </div>
+      <div class="mb-1">
+        <span class="font-weight-bold">Loại phòng: </span>
+        <span>{{chooseRoomClass.roomKind.name}}</span>
+      </div>
+      <div class="mb-1">
+        <span class="font-weight-bold">Số lượng khách ở: </span>
+        <span>{{chooseRoomClass.guestNum}}</span>
+      </div>
+    </p-panel>
+    <div class="mb-3" [formGroup]="detailForm">
+      <label for="percent" class="form-label">Phần trăm giảm</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="percent" formControlName="percent"
+               [ngClass]="{'is-invalid': detailForm.controls['percent'].invalid && isSubmit}">
+        <div
+          *ngIf="detailForm.controls['percent'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập Phần trăm giảm!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" class="btn-submit" mat-button (click)="save()">
+    <span class="material-symbols-outlined">add</span>
+  </button>
+</div>

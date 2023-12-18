@@ -1,0 +1,6 @@
+USE hotel_management;
+GO
+
+ALTER TABLE TIEN_NGHI
+ADD ICON NVARCHAR(200);
+

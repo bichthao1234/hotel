@@ -1,0 +1,16 @@
+<div class="d-flex flex-column my-2 detail-room-item p-2 rounded">
+  <div>{{detailRoomClass.roomClassificationId.roomKind.name}}
+    - {{detailRoomClass.roomClassificationId.roomType.name}}</div>
+  <div *ngIf="price?.priceAfterPromotion" class="d-flex flex-row">
+    <div class="d-flex flex-row align-items-center">
+      <div *ngIf="price?.hasPromotion" class="m-price mr-2">
+        <span>({{getShowPrice(price?.roomClassPrice)}})</span>
+      </div>
+      <div class="d-flex flex-row">
+        <span class="m-price-promotion">{{getShowPrice(price?.priceAfterPromotion)}}đ</span>
+        <label class="fs-10px">/đêm</label>
+      </div>
+    </div>
+  </div>
+  <div>{{showNumOfRoom()}}</div>
+</div>

@@ -1,0 +1,42 @@
+<div class="p-2">
+  <div class="mb-4">
+    <div class="d-flex flex-row align-items-center justify-content-between">
+      <h5 class="font-weight-bolder">Chỉnh sửa ngày đến/đi phiếu đặt</h5>
+      <div class="pointer-cursor" (click)="closeDialog()">
+        <span class="material-symbols-outlined">close</span>
+      </div>
+    </div>
+    <mat-divider class="w-100"></mat-divider>
+  </div>
+  <div class="d-flex flex-row align-items-center mb-2">
+    <span class="material-symbols-outlined">person</span>
+    <span>Khách đặt:</span>
+    <span class="text-success ml-1">{{data.customerDisplayName}}</span>
+  </div>
+  <div>
+    <table class="table table-custom table-hover">
+      <thead>
+      <tr>
+        <th scope="col">ID Phiếu đặt</th>
+        <th scope="col">Thời gian ở</th>
+        <th scope="col">Số tiền cọc</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{data.id}}</td>
+        <td class="w-25">
+          <app-range-date-picker [showBtnToggle]="false" [startDate]="startDate" [endDate]="endDate" (respDateSelected)="getDate($event)"></app-range-date-picker>
+        </td>
+        <td>{{getPrice(data.deposit)}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex align-items-center justify-content-end" *ngIf="data.status.value === 1">
+    <button class="btn btn-success"
+            (click)="changeDateRangeReservation(data.id)">
+      <span class="text-white">Xác nhận</span>
+    </button>
+  </div>
+</div>

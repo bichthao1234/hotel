@@ -1,0 +1,83 @@
+<div *ngIf="rentalSlipDetail" class="flex-1 flex flex-column gap-2">
+  <div class="font-bold">{{ rentalSlipDetail.roomName }}</div>
+  <div class="font-bold">Phòng: {{ rentalSlipDetail.roomId }}</div>
+  <div>Thời gian ở: {{rentalSlipDetail.checkInDate | date: 'dd/MM/yyyy'}}
+    - {{rentalSlipDetail.checkOutDate | date: 'dd/MM/yyyy'}}</div>
+  <div class="flex align-items-center gap-2">
+    <span class="font-bold text-900">Tổng tiền: {{ getPrice(rentalSlipDetail.total) }} VNĐ</span>
+  </div>
+  <div class="p-2 rounded m-area">
+    <div (mousedown)="changeRoom()" class="d-flex flex-row align-items-center justify-content-between">
+      <div class="font-weight-bold">Tiền phòng</div>
+      <button matTooltip="Mở rộng" *ngIf="!showRoom" class="btn">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <button matTooltip="Thu nhỏ" *ngIf="showRoom" class="btn">
+        <span class="material-symbols-outlined">minimize</span>
+      </button>
+    </div>
+    <div [ngClass]="{'show': showRoom, 'hidden': !showRoom}">
+      <div class="row align-items-center justify-content-between">
+        <span class="col-3 font-weight-bold">Đơn giá</span>
+        <span class="col-3 font-weight-bold">Số ngày ở</span>
+        <span class="col-3 font-weight-bold">Thành tiền</span>
+      </div>
+      <div class="row align-items-center justify-content-between">
+        <span class="col-3">{{ getPrice(rentalSlipDetail.roomPrice) }} VNĐ</span>
+        <span class="col-3">{{ rentalSlipDetail.stayingDay }}</span>
+        <span class="col-3">{{ getPrice(rentalSlipDetail.totalRoomPrice) }} VNĐ</span>
+      </div>
+    </div>
+  </div>
+  <div class="p-2 rounded m-area">
+    <div (mousedown)="changeService()" class="d-flex flex-row align-items-center justify-content-between">
+      <div class="font-weight-bold">Dịch vụ</div>
+      <button matTooltip="Mở rộng" *ngIf="!showService" class="btn">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <button matTooltip="Thu nhỏ" *ngIf="showService" class="btn">
+        <span class="material-symbols-outlined">minimize</span>
+      </button>
+    </div>
+    <div [ngClass]="{'show': showService, 'hidden': !showService}">
+      <div class="row align-items-center justify-content-between">
+        <span class="col-3 font-weight-bold">Tên</span>
+        <span class="col-3 font-weight-bold">Số lượng</span>
+        <span class="col-3 font-weight-bold">Thành tiền</span>
+      </div>
+      <div *ngFor="let service of rentalSlipDetail.service">
+        <div class="row align-items-center justify-content-between">
+          <span class="col-3">{{service["service"]["name"]}}
+            <span *ngIf="!rentalSlipDetail.status && service.status">(Đã thanh toán)</span></span>
+          <span class="col-3">{{service["quantity"]}}</span>
+          <span class="col-3">{{getPrice(service["price"])}}vnđ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-2 rounded m-area">
+    <div (mousedown)="changeSurcharge()" class="d-flex flex-row align-items-center justify-content-between">
+      <div class="font-weight-bold">Phụ thu</div>
+      <button matTooltip="Mở rộng" *ngIf="!showSurcharge" class="btn">
+        <span class="material-symbols-outlined">add</span>
+      </button>
+      <button matTooltip="Thu nhỏ" *ngIf="showSurcharge" class="btn">
+        <span class="material-symbols-outlined">minimize</span>
+      </button>
+    </div>
+    <div [ngClass]="{'show': showSurcharge, 'hidden': !showSurcharge}">
+      <div class="row align-items-center justify-content-between">
+        <span class="col-4 font-weight-bold">Tên</span>
+        <span class="col-4 font-weight-bold">Số lượng</span>
+        <span class="col-4 font-weight-bold">Thành tiền</span>
+      </div>
+      <div *ngFor="let surcharge of rentalSlipDetail?.surcharge">
+        <div class="row align-items-center justify-content-between">
+          <span class="col-4">{{surcharge.surcharge.name}}</span>
+          <span class="col-4">{{surcharge.quantity}}</span>
+          <span class="col-4">{{getPrice(surcharge.price)}}vnđ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

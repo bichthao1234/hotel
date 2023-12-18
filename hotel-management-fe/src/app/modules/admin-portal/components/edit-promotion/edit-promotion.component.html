@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Chỉnh sửa dịch vụ</h1>
+<div mat-dialog-content >
+  <div class="edit-room-type-content" [formGroup]="promotionForm">
+    <div class="mb-3">
+      <label for="room-type-id" class="form-label">ID</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="room-type-id" formControlName="id"
+               [ngClass]="{'is-invalid': promotionForm.controls['id'].invalid && isSubmit}">
+        <div *ngIf="promotionForm.controls['id'].invalid && isSubmit"
+          class="invalid-feedback">
+          Please enter a ID of room type!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Mô tả</label>
+      <div class="input-group">
+        <textarea type="text" class="form-control" id="description" formControlName="description"
+                  [ngClass]="{'is-invalid': promotionForm.controls['description'].invalid && isSubmit}">
+        </textarea>
+        <div
+          *ngIf="promotionForm.controls['description'].invalid && isSubmit"
+          class="invalid-feedback">
+          Hãy nhập mô tả dịch vụ!
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Mô tả</label>
+      <div class="input-group">
+        <app-range-date-picker [showBtnToggle]="false" [startDate]="startDate" [endDate]="endDate"
+                               (respDateSelected)="getDate($event)"></app-range-date-picker>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end">
+  <button matTooltip="Cancel" class="btn-cancel" mat-button (click)="cancel()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button matTooltip="Save" [ngClass]="{'btn-submit': isChange}" mat-button (click)="save()" [disabled]="!isChange">
+    <span class="material-symbols-outlined">save</span>
+  </button>
+</div>

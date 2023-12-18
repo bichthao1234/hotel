@@ -1,0 +1,18 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">CMND/CCCD</th>
+    <th scope="col">Họ tên</th>
+    <th scope="col">Số điện thoại</th>
+    <th scope="col">Email</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let guest of roomRentalGuests">
+    <td>{{guest?.customerId}}</td>
+    <td>{{guest?.customerDisplayName}}</td>
+    <td>{{guest?.phone}}</td>
+    <td>{{guest?.email}}</td>
+  </tr>
+  </tbody>
+</table>

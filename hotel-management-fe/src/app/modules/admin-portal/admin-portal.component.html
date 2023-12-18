@@ -1,0 +1,30 @@
+<div class="root-admin">
+  <mat-drawer-container class="admin-container">
+    <mat-drawer mode="side" [opened]="true" [disableClose]="true">
+      <div class="left-side">
+        <div [ngClass]="{'logo': togglesStatus,
+        'logo-collapse': !togglesStatus}">
+          <div class="wrap-logo">
+            <img class="logo-admin" src="assets/images/logo.jpg" alt="logo">
+            <label class="logo-title" *ngIf="togglesStatus">{{roleShow}}</label>
+          </div>
+          <div>
+            <span class="material-symbols-outlined toggle-button" (click)="changeToggle()">menu</span>
+          </div>
+        </div>
+        <div [ngClass]="{'side-bar': togglesStatus, 'side-bar-collapse': !togglesStatus}">
+          <app-side-bar-admin [menuItems]="menuItems" *ngIf="togglesStatus"></app-side-bar-admin>
+          <app-side-bar-collapse [menuItems]="menuItems" *ngIf="!togglesStatus"></app-side-bar-collapse>
+          <span class="material-symbols-outlined pointer-cursor p-1 rounded bg-dark change-role text-white"
+                *ngIf="isManager" [matTooltip]="showRoleChange()" (click)="changeRole()">change_circle</span>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content class="background" [style.margin-left]="marginLeft">
+      <app-header-admin class="header" [togglesStatus]="togglesStatus"></app-header-admin>
+      <div class="content-admin">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
